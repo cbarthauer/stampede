@@ -1,7 +1,6 @@
 package main;
 
 import analyzer.Metric;
-import analyzer.MetricResultSet;
 import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
