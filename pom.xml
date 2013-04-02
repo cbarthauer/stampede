@@ -10,6 +10,11 @@
         Static analysis framework and Sonar integration for the MUMPS programming language.
     </description>
   
+    <properties>
+        <sonar.host.url>http://localhost:9000</sonar.host.url>
+        <property name="sonar.exclusions" value="grammar/MParser.java" />
+    </properties>
+  
     <dependencies>
         <dependency>
             <groupId>org.antlr</groupId>
@@ -32,7 +37,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
     
