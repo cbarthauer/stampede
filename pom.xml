@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>mumps</groupId>
     <artifactId>MumpsAnalyzer</artifactId>
-    <packaging>jar</packaging>
+    <packaging>sonar-plugin</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <name>MUMPS Analyzer</name>
     <description>
@@ -16,6 +16,7 @@
     </properties>
   
     <dependencies>
+        
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-master</artifactId>
@@ -25,13 +26,24 @@
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-plugin-api</artifactId>
-            <version>2.11</version>
+            <version>3.4.1</version>
         </dependency>
     
+
+    
+        <!-- unit tests -->
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-testing-harness</artifactId>
+            <version>3.4.1</version>
+            <scope>test</scope>
+        </dependency>
+        
         <dependency>
             <groupId>org.jmock</groupId>
             <artifactId>jmock-junit4</artifactId>
             <version>2.6.0</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -40,12 +52,11 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-    
-        <!-- unit tests -->
+
         <dependency>
-            <groupId>org.codehaus.sonar</groupId>
-            <artifactId>sonar-testing-harness</artifactId>
-            <version>2.11</version>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.31.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -58,7 +69,7 @@
                 <version>1.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <pluginClass>com.cbarthauer.sonar.plugin.mumps.MumpsPlugin</pluginClass>
+                    <pluginClass>sonar.MumpsPlugin</pluginClass>
                 </configuration>
             </plugin>
             <plugin>
