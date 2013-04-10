@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-final class FileBasedMumpsRoutine implements MumpsRoutine {
+public final class FileBasedMumpsRoutine implements MumpsRoutine {
     private final File file;
     private final int EOF = -1;
 
-    FileBasedMumpsRoutine(File file) {
+    public FileBasedMumpsRoutine(File file) {
         this.file = file;
     }
 
