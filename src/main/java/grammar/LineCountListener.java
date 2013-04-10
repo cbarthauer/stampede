@@ -29,4 +29,9 @@ public final class LineCountListener implements MetricListener {
     public final int getValue() {
         return lineCount;
     }
+
+    @Override
+    public final void reset() {
+        lineCount = 0;
+    }
 }

@@ -12,7 +12,7 @@ public final class MumpsPlugin extends SonarPlugin {
         return Arrays.asList(
                 Mumps.class,
                 MumpsSourceImporter.class,
-//                MumpsSensor.class,
+                MumpsSensor.class,
                 MumpsDecorator.class);
     }
 }

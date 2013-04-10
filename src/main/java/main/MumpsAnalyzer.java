@@ -29,7 +29,7 @@ public final class MumpsAnalyzer {
         while(iterator.hasNext()) {
             MumpsRoutine routine = iterator.next();
             Map<String, Map<Metric, Integer>> resultSet = processor.process(routine);
-            store.write(resultSet);
+            store.append(resultSet);
         }
         
         return store.clone();

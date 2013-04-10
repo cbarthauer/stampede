@@ -24,6 +24,7 @@ public class LocTest {
     driver.get(baseUrl + "/");
     driver.findElement(By.linkText("VistA")).click();
     String lines = driver.findElement(By.id("m_lines")).getText();
+
     assertThat(lines, equalTo("44,620"));
   }
 

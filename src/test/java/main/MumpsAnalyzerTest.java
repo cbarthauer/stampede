@@ -5,12 +5,14 @@ import analyzer.FileSystemSourceDistribution;
 import analyzer.InMemoryMetricStore;
 import analyzer.Metric;
 import analyzer.MetricListener;
+import analyzer.MetricResult;
 import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
 import grammar.LineCountListener;
 import java.io.File;
+import java.util.Iterator;
 import java.util.Map;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
@@ -43,7 +45,7 @@ public class MumpsAnalyzerTest {
         context.checking(new Expectations() {{
             oneOf(distribution).iterator();
             never(processor).process(with(any(MumpsRoutine.class)));
-            never(store).write(with(any(Map.class)));
+            never(store).append(with(any(Map.class)));
             oneOf(store).clone();
         }});
         
@@ -76,14 +78,19 @@ public class MumpsAnalyzerTest {
                 new FileSystemSourceDistribution(inputFile);
         final MetricListener listener = new LineCountListener();
         final RoutineProcessor processor = new AntlrRoutineProcessor(listener);
-        final MetricStore store = new InMemoryMetricStore();
+        MetricStore store = new InMemoryMetricStore();
         
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
                 distribution, 
                 processor, 
                 store);
         
-        MetricStore result = analyzer.analyze();
-        assertThat(result.sum(Metric.LOC), equalTo(44620));
+        store = analyzer.analyze();
+        assertThat(store.sum(Metric.LOC), equalTo(44620));
+        
+        Iterator<MetricResult> iterator = store.iterator();
+        MetricResult result = iterator.next();
+        assertThat(MUMPS_FOLDER_PATH + "\\PRCA219P.m", equalTo(result.getPath()));
+        assertThat(96.0, equalTo(result.getDouble(Metric.LOC)));
     }
 }

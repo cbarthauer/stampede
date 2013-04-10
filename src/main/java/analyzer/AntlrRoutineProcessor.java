@@ -39,7 +39,15 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
         Map<String, Map<Metric, Integer>> resultMap = 
                 new HashMap<String, Map<Metric, Integer>>();
         resultMap.put(routine.identifier(), metricMap);
+        
+        resetMetricListeners();
         return resultMap;
+    }
+
+    private void resetMetricListeners() {
+        for(MetricListener listener : listeners) {
+            listener.reset();
+        }
     }
     
 }

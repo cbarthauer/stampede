@@ -30,6 +30,7 @@ public class AntlrRoutineProcessorTest {
             will(returnValue(1));
             oneOf(routine).identifier();
             will(returnValue("HELLO.m"));
+            oneOf(listener).reset();
         }});
         
         processor.process(routine);

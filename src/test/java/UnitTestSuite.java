@@ -1,6 +1,7 @@
 import analyzer.AntlrRoutineProcessorTest;
 import analyzer.FileBasedMumpsRoutineTest;
 import analyzer.FileSystemSourceDistributionTest;
+import analyzer.InMemoryMetricStoreTest;
 import grammar.LineCountListenerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -11,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
     AntlrRoutineProcessorTest.class,
     FileBasedMumpsRoutineTest.class,
     FileSystemSourceDistributionTest.class,
+    InMemoryMetricStoreTest.class,
     LineCountListenerTest.class
 })
 public class UnitTestSuite {}

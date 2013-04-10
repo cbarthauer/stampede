@@ -9,7 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class FileSystemSourceDistributionTest {
-    private static final String VISTA_FOIA_PATH = "D:/mspace/VistA-FOIA";
+    private static final String VISTA_FOIA_PATH = "D:\\mspace\\VistA-FOIA";
+    private static final String ACCOUNTS_RECEIVABLE_PATH = "D:\\mspace\\VistA-FOIA\\Packages\\Accounts Receivable\\Routines";
     
     @Test
     public void countFilesInDistribution() {
@@ -24,5 +25,20 @@ public class FileSystemSourceDistributionTest {
         }
         
         assertThat(25074, equalTo(routineList.size()));
+    }
+    
+    @Test
+    public void countFilesInAccountsReceivableFolder() {
+        File file = new File(ACCOUNTS_RECEIVABLE_PATH);
+        SourceDistribution distribution = new FileSystemSourceDistribution(
+                file);
+        List<MumpsRoutine> routineList = new ArrayList<MumpsRoutine>();
+        Iterator<MumpsRoutine> routineIterator = distribution.iterator();
+        
+        while(routineIterator.hasNext()) {
+            routineList.add(routineIterator.next());
+        }
+        
+        assertThat(467, equalTo(routineList.size()));       
     }
 }

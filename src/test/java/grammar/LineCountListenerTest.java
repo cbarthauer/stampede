@@ -13,5 +13,8 @@ public class LineCountListenerTest {
         listener.enterLevelLine(null);
         listener.enterLevelLine(null);
         assertThat(metricListener.getValue(), equalTo(2));
+        
+        metricListener.reset();
+        assertThat(metricListener.getValue(), equalTo(0));
     }
 }

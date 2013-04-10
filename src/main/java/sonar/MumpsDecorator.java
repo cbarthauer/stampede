@@ -18,6 +18,9 @@ public final class MumpsDecorator implements Decorator {
 
     @Override
     public void decorate(Resource resource, DecoratorContext context) {
-        LOG.info("MumpsDecorator: " + resource.getKey());
+        LOG.info("Key: " + resource.getKey());
+        LOG.info("Effective Key: " + resource.getEffectiveKey());
+        LOG.info("Long Name: " + resource.getLongName());
+        LOG.info("Name: " + resource.getName());
     }
 }
