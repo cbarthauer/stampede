@@ -1,5 +1,14 @@
 package analyzer;
 
+/**
+ * Enumerates the specific Metrics which MumpsAnalyzer
+ * calculates.
+ * 
+ * @author cbarthauer
+ */
 public enum Metric {
-    LOC; //Lines of code.
+    /**
+     * Lines of code.
+     */
+    LOC;
 }

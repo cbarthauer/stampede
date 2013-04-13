@@ -9,10 +9,23 @@ import java.util.Map;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+/**
+ * A RoutineProcessor implemented using the ANTLR parser generator.
+ * 
+ * @author cbarthauer
+ */
 public final class AntlrRoutineProcessor implements RoutineProcessor {
 
     private List<MetricListener> listeners;
     
+    /**
+     * Creates an AntlrRoutineProcessor which notifies each of the given
+     * {@link analyzer.MetricListener} objects appropriately as it
+     * processes each {@link analyzer.MumpsRoutine}.
+     * 
+     * @param listeners The listeners which the AntlrRoutineProcessor
+     * will notify with parse events.
+     */
     public AntlrRoutineProcessor(MetricListener... listeners) {
         this.listeners = Arrays.asList(listeners);
     }

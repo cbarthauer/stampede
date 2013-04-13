@@ -21,6 +21,12 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 
+/**
+ * This class analyzes a MUMPS source distribution stored in the
+ * file system and loads the results into Sonar.
+ * 
+ * @author cbarthauer
+ */
 public final class MumpsSensor implements Sensor {
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
 

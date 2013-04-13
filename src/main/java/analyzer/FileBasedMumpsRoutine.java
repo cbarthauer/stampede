@@ -6,10 +6,22 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class models a MumpsRoutine backed by a source code
+ * file.
+ * 
+ * @author cbarthauer
+ */
 public final class FileBasedMumpsRoutine implements MumpsRoutine {
     private final File file;
-    private final int EOF = -1;
+    private final int eof = -1;
 
+    /**
+     * Create a FileBasedMumpsRoutine backed by the given file.
+     * 
+     * @param file containing the source code for a MUMPS 
+     * routine.
+     */
     public FileBasedMumpsRoutine(File file) {
         this.file = file;
     }
@@ -20,9 +32,9 @@ public final class FileBasedMumpsRoutine implements MumpsRoutine {
         
         try {
             FileReader fr = new FileReader(file);
-            int currentCharacter = EOF;      
+            int currentCharacter = eof;      
             
-            while((currentCharacter = fr.read()) != EOF) {
+            while((currentCharacter = fr.read()) != eof) {
                 builder.append(new Character((char) currentCharacter));
             }
         } catch (IOException ex) {

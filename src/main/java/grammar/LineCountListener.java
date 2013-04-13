@@ -3,9 +3,17 @@ package grammar;
 import analyzer.Metric;
 import analyzer.MetricListener;
 
+/**
+ * This class counts lines of code for MUMPS routines.
+ * 
+ * @author cbarthauer
+ */
 public final class LineCountListener implements MetricListener {
     private int lineCount;
 
+    /**
+     * Create LineCountListener with initial line count of zero.
+     */
     public LineCountListener() {
         lineCount = 0;
     }

@@ -12,7 +12,7 @@
   
     <properties>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <property name="sonar.exclusions" value="grammar/MParser.java" />
+        <sonar.exclusions>grammar/M*.java</sonar.exclusions>
     </properties>
   
     <dependencies>

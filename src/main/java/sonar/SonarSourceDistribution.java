@@ -11,7 +11,13 @@ import org.sonar.api.resources.InputFile;
 class SonarSourceDistribution implements SourceDistribution {
     private final List<InputFile> inputFiles;
 
-    public SonarSourceDistribution(List<InputFile> inputFiles) {
+    /**
+     * Create a new SonarSourceDistribution backed by the given
+     * inputFiles.
+     * 
+     * @param inputFiles comprising the source distribution.
+     */
+    SonarSourceDistribution(List<InputFile> inputFiles) {
         this.inputFiles = new ArrayList<InputFile>(inputFiles);
     }
 

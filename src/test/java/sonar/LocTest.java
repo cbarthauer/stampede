@@ -19,6 +19,7 @@ public class LocTest {
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
+  @Ignore
   @Test
   public void testLoc() throws Exception {
     driver.get(baseUrl + "/");
