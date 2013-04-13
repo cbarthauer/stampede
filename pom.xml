@@ -107,7 +107,7 @@
                     </mapping>
                     <properties>
                         <year>2013</year>
-                        <user.name>Chris Barthauer</user.name>
+                        <name>Chris Barthauer</name>
                         <email>cbarthauer@gmail.com</email>
                     </properties>
                 </configuration>
