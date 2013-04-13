@@ -20,14 +20,16 @@ import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
+import org.sonar.api.resources.Qualifiers;
 
 /**
- * This class analyzes a MUMPS source distribution stored in the
- * file system and loads the results into Sonar.
- * 
+ * This class analyzes a MUMPS source distribution stored in the file system and
+ * loads the results into Sonar.
+ *
  * @author cbarthauer
  */
 public final class MumpsSensor implements Sensor {
+
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
 
     @Override
@@ -37,35 +39,49 @@ public final class MumpsSensor implements Sensor {
 
     @Override
     public final void analyse(Project project, SensorContext context) {
-        List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
-        SourceDistribution distribution = new SonarSourceDistribution(inputFiles);
+        String qualifier = project.getQualifier();
+
+        if (Qualifiers.PROJECT.equals(qualifier)) {
+            analyseProject(project, context);
+        } else if (Qualifiers.MODULE.equals(qualifier)) {
+            analyseModule(project, context);
+        }
+    }
+
+    private Iterator<MetricResult> getMetricResultIterator(List<InputFile> inputFiles) {
+        final SourceDistribution distribution = new SonarSourceDistribution(inputFiles);
         final MetricListener listener = new LineCountListener();
         final RoutineProcessor processor = new AntlrRoutineProcessor(listener);
         MetricStore store = new InMemoryMetricStore();
-        
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
-                distribution, 
-                processor, 
+                distribution,
+                processor,
                 store);
-        
         store = analyzer.analyze();
-        Iterator<MetricResult> iterator = store.iterator();
-        
-        while(iterator.hasNext()) {
+        return store.iterator();
+    }
+
+    private void analyseModule(Project project, SensorContext context) {
+        List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
+        Iterator<MetricResult> iterator = getMetricResultIterator(inputFiles);
+
+        while (iterator.hasNext()) {
             MetricResult result = iterator.next();
             File sonarFile = File.fromIOFile(
-                    new java.io.File(result.getPath()), 
+                    new java.io.File(result.getPath()),
                     project);
-            
-            if(sonarFile != null) {
-                sonarFile.setEffectiveKey(
-                        project.getKey() + ":" + sonarFile.getKey());
 
-                context.saveMeasure(
-                        sonarFile, 
-                        CoreMetrics.LINES, 
-                        result.getDouble(Metric.LOC));
-            }
+            sonarFile.setEffectiveKey(
+                    project.getKey() + ":" + sonarFile.getKey());
+
+            context.saveMeasure(
+                    sonarFile,
+                    CoreMetrics.LINES,
+                    result.getDouble(Metric.LOC));
         }
+    }
+
+    private void analyseProject(Project project, SensorContext context) {
+        //Not implemented.
     }
 }
