@@ -1,7 +1,10 @@
-package grammar;
+package listener;
 
 import analyzer.Metric;
 import analyzer.MetricListener;
+import grammar.MBaseListener;
+import grammar.MListener;
+import grammar.MParser;
 
 /**
  * This class counts lines of code for MUMPS routines.

@@ -2,7 +2,7 @@ import analyzer.AntlrRoutineProcessorTest;
 import analyzer.FileBasedMumpsRoutineTest;
 import analyzer.FileSystemSourceDistributionTest;
 import analyzer.InMemoryMetricStoreTest;
-import grammar.LineCountListenerTest;
+import listener.LineCountListenerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;

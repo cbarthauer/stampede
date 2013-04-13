@@ -10,7 +10,7 @@ import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
-import grammar.LineCountListener;
+import listener.LineCountListener;
 import java.io.File;
 import java.util.Iterator;
 import java.util.Map;

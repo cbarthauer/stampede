@@ -8,7 +8,7 @@ import analyzer.MetricResult;
 import analyzer.MetricStore;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
-import grammar.LineCountListener;
+import listener.LineCountListener;
 import java.util.Iterator;
 import java.util.List;
 import main.MumpsAnalyzer;

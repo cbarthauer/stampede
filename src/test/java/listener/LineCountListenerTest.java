@@ -1,6 +1,8 @@
-package grammar;
+package listener;
 
+import listener.LineCountListener;
 import analyzer.MetricListener;
+import grammar.MListener;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
