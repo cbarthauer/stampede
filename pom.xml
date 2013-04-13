@@ -60,7 +60,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+        
     <build>
         <plugins>
             <plugin>
@@ -82,6 +82,62 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <header>licenseHeader.txt</header>
+                    <failIfMissing>true</failIfMissing>
+                    <strictCheck>true</strictCheck>
+                    <excludes>
+                        <exclude>licenseHeader.txt</exclude>
+                        <exclude>**/build/**</exclude>
+                        <exclude>**/dist/**</exclude>
+                        <exclude>**/nbproject/**</exclude>
+                        <exclude>**/target/**</exclude>
+                        <exclude>build.xml</exclude>
+                        <exclude>manifest.mf</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>**/src/main/java/grammar/*.tokens</exclude>
+                        <exclude>COPYING.txt</exclude>
+                        <exclude>README.md</exclude>
+                    </excludes>
+                    <mapping>
+                        <g4>DOUBLESLASH_STYLE</g4>
+                    </mapping>
+                    <properties>
+                        <year>2013</year>
+                        <user.name>Chris Barthauer</user.name>
+                        <email>cbarthauer@gmail.com</email>
+                    </properties>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+    
+    <profiles>
+        <profile>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>mc-release</id>
+                    <name>Local Maven repository of releases</name>
+                    <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+
 </project>
