@@ -27,7 +27,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
@@ -37,28 +39,38 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 public final class AntlrRoutineProcessor implements RoutineProcessor {
 
-    private List<MetricListener> listeners;
+    private List<MetricListener> metricListeners;
+    private final ANTLRErrorListener lexerErrorListener;
     
     /**
      * Creates an AntlrRoutineProcessor which notifies each of the given
      * {@link analyzer.MetricListener} objects appropriately as it
      * processes each {@link analyzer.MumpsRoutine}.
      * 
-     * @param listeners The listeners which the AntlrRoutineProcessor
+     * @param metricListeners The listeners which the AntlrRoutineProcessor
      * will notify with parse events.
      */
-    public AntlrRoutineProcessor(MetricListener... listeners) {
-        this.listeners = Arrays.asList(listeners);
+    public AntlrRoutineProcessor(MetricListener... metricListeners) {
+        this(new BaseErrorListener(), metricListeners);
+    }
+    
+    public AntlrRoutineProcessor(
+            ANTLRErrorListener lexerErrorListener, 
+            MetricListener... metricListeners) {
+        
+        this.lexerErrorListener = lexerErrorListener;
+        this.metricListeners = Arrays.asList(metricListeners);
     }
 
     @Override
     public Map<String, Map<Metric, Integer>> process(MumpsRoutine routine) {
         ANTLRInputStream input = new ANTLRInputStream(routine.asString());
         MLexer lexer = new MLexer(input);
+        lexer.addErrorListener(lexerErrorListener);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MParser parser = new MParser(tokens);
         
-        for(MetricListener listener : listeners) {
+        for(MetricListener listener : metricListeners) {
             parser.addParseListener(listener.asMListener());
         }
         
@@ -66,7 +78,7 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
         
         Map<Metric, Integer> metricMap = new HashMap<Metric, Integer>();
         
-        for(MetricListener listener : listeners) {
+        for(MetricListener listener : metricListeners) {
             metricMap.put(listener.getMetric(), listener.getValue());
         }
         
@@ -79,9 +91,8 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
     }
 
     private void resetMetricListeners() {
-        for(MetricListener listener : listeners) {
+        for(MetricListener listener : metricListeners) {
             listener.reset();
         }
     }
-    
 }

@@ -21,7 +21,11 @@
  */
 package analyzer;
 
-import java.util.Map;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.BaseErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -55,5 +59,56 @@ public class AntlrRoutineProcessorTest {
         }});
         
         processor.process(routine);
+    }
+    
+    @Test
+    public void shouldLogLexerErrors() {
+        final String unicodeSigmaCharacter = "\u03A3";
+        final String routineIdentifier = "HELLO";
+        MumpsRoutine routine = new StringBasedMumpsRoutine(
+                routineIdentifier, "HELLO " + unicodeSigmaCharacter + "\n");
+        AntlrLexerErrorListener errorListener = 
+                new AntlrLexerErrorListener(routineIdentifier);
+        AntlrRoutineProcessorBuilder builder = new AntlrRoutineProcessorBuilder();
+        RoutineProcessor processor = builder.setLexerErrorListener(errorListener)
+                .build();
+        
+        processor.process(routine); 
+        List<AntlrLexerError> errors = errorListener.getLexerErrors();
+        
+        assertThat(errors.size(), greaterThan(0));
+        assertThat(
+                errors.get(0).getMessage(), 
+                equalTo("token recognition error at: '" 
+                    + unicodeSigmaCharacter + "'"));
+        assertThat(
+                errors.get(0).getLine(),
+                equalTo(1));
+        assertThat(
+                errors.get(0).getCharPositionInLine(),
+                equalTo(6));
+        assertThat(
+                errors.get(0).getIdentifier(),
+                equalTo(routineIdentifier));
+    }
+        
+    private class StringBasedMumpsRoutine implements MumpsRoutine {
+        private final String identifier;
+        private final String source;
+
+        private StringBasedMumpsRoutine(String identifier, String source) {
+            this.identifier = identifier;
+            this.source = source;
+        }        
+        
+        @Override
+        public String asString() {
+            return source;
+        }
+
+        @Override
+        public String identifier() {
+            return identifier;
+        }        
     }
 }
