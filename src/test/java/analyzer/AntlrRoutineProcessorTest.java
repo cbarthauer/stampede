@@ -68,7 +68,7 @@ public class AntlrRoutineProcessorTest {
         MumpsRoutine routine = new StringBasedMumpsRoutine(
                 routineIdentifier, "HELLO " + unicodeSigmaCharacter + "\n");
         AntlrLexerErrorListener errorListener = 
-                new AntlrLexerErrorListener(routineIdentifier);
+                new AntlrLexerErrorListener();
         AntlrRoutineProcessorBuilder builder = new AntlrRoutineProcessorBuilder();
         RoutineProcessor processor = builder.setLexerErrorListener(errorListener)
                 .build();

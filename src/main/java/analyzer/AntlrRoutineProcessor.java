@@ -40,7 +40,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 public final class AntlrRoutineProcessor implements RoutineProcessor {
 
     private List<MetricListener> metricListeners;
-    private final ANTLRErrorListener lexerErrorListener;
+    private final AntlrLexerErrorListener lexerErrorListener;
     
     /**
      * Creates an AntlrRoutineProcessor which notifies each of the given
@@ -51,11 +51,11 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
      * will notify with parse events.
      */
     public AntlrRoutineProcessor(MetricListener... metricListeners) {
-        this(new BaseErrorListener(), metricListeners);
+        this(new AntlrLexerErrorListener(), metricListeners);
     }
     
     public AntlrRoutineProcessor(
-            ANTLRErrorListener lexerErrorListener, 
+            AntlrLexerErrorListener lexerErrorListener, 
             MetricListener... metricListeners) {
         
         this.lexerErrorListener = lexerErrorListener;
@@ -66,6 +66,7 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
     public Map<String, Map<Metric, Integer>> process(MumpsRoutine routine) {
         ANTLRInputStream input = new ANTLRInputStream(routine.asString());
         MLexer lexer = new MLexer(input);
+        lexerErrorListener.setMumpsRoutine(routine);
         lexer.addErrorListener(lexerErrorListener);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MParser parser = new MParser(tokens);
