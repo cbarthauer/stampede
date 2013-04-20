@@ -23,6 +23,7 @@ package analyzer;
 
 import java.util.ArrayList;
 import java.util.List;
+import listener.ParserErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 
 /**
@@ -31,16 +32,18 @@ import org.antlr.v4.runtime.BaseErrorListener;
  * @author cbarthauer
  */
 public final class AntlrRoutineProcessorBuilder {
-    private LexerErrorListener errorListener;
+    private LexerErrorListener lexerErrorListener;
     private MetricListener[] metricListeners;
+    private ParserErrorListener parserErrorListener;
 
     /**
      * Creates a builder instance with no MetricListeners
      * and a no-op LexerErrorListener. 
      */
     public AntlrRoutineProcessorBuilder() {
-        errorListener = new NullLexerErrorListener();
+        lexerErrorListener = new NullLexerErrorListener();
         metricListeners = new MetricListener[]{};
+        parserErrorListener = new NullParserErrorListener();
     }
     
     /**
@@ -51,7 +54,8 @@ public final class AntlrRoutineProcessorBuilder {
      */
     public final AntlrRoutineProcessor build() {
         return new AntlrRoutineProcessor(
-                errorListener,
+                lexerErrorListener,
+                parserErrorListener,
                 metricListeners);
     }
     
@@ -64,7 +68,7 @@ public final class AntlrRoutineProcessorBuilder {
      */
     public final AntlrRoutineProcessorBuilder setLexerErrorListener(
             LexerErrorListener errorListener) {
-        this.errorListener = errorListener;
+        this.lexerErrorListener = errorListener;
         return this;
     }
 
@@ -80,6 +84,12 @@ public final class AntlrRoutineProcessorBuilder {
         this.metricListeners = metricListeners;
         return this;
     }
+
+    public final AntlrRoutineProcessorBuilder setParserErrorListener(
+            ParserErrorListener parserErrorListener) {
+        this.parserErrorListener = parserErrorListener;
+        return this;
+    }
     
     private final class NullLexerErrorListener extends BaseErrorListener 
             implements LexerErrorListener {
@@ -92,6 +102,21 @@ public final class AntlrRoutineProcessorBuilder {
         @Override
         public final void setMumpsRoutine(MumpsRoutine routine) {
             //No-op;
+        }
+        
+    }
+    
+    private final class NullParserErrorListener extends BaseErrorListener
+            implements ParserErrorListener {
+
+        @Override
+        public final List<AntlrParserError> getParserErrors() {
+            return new ArrayList<AntlrParserError>();
+        }
+
+        @Override
+        public final void setMumpsRoutine(MumpsRoutine routine) {
+            //No-op.
         }
         
     }

@@ -19,6 +19,7 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
+import analyzer.AntlrRoutineProcessorBuilderTest;
 import analyzer.AntlrRoutineProcessorTest;
 import analyzer.FileBasedMumpsRoutineTest;
 import analyzer.FileSystemSourceDistributionTest;
@@ -32,6 +33,7 @@ import sonar.SonarMumpsAnalyzerFactoryTest;
 @RunWith(Suite.class)
 @SuiteClasses({
     AntlrRoutineProcessorTest.class,
+    AntlrRoutineProcessorBuilderTest.class,
     FileBasedMumpsRoutineTest.class,
     FileSystemSourceDistributionTest.class,
     InMemoryMetricStoreTest.class,

@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import listener.ParserErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -39,6 +40,7 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
 
     private final List<MetricListener> metricListeners;
     private final LexerErrorListener lexerErrorListener;
+    private final ParserErrorListener parserErrorListener;
     
     /**
      * Creates an AntlrRoutineProcessor which notifies each of the given
@@ -51,8 +53,10 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
      */    
     AntlrRoutineProcessor(
             LexerErrorListener lexerErrorListener, 
+            ParserErrorListener parserErrorListener,
             MetricListener... metricListeners) {
         
+        this.parserErrorListener = parserErrorListener;
         this.lexerErrorListener = lexerErrorListener;
         this.metricListeners = Arrays.asList(metricListeners);
     }
@@ -65,6 +69,8 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
         lexer.addErrorListener(lexerErrorListener);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         MParser parser = new MParser(tokens);
+        parserErrorListener.setMumpsRoutine(routine);
+        parser.addErrorListener(parserErrorListener);
         
         for(MetricListener listener : metricListeners) {
             parser.addParseListener(listener.asMListener());

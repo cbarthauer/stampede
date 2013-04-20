@@ -22,6 +22,8 @@
 package analyzer;
 
 import java.util.List;
+import listener.InMemoryParserErrorListener;
+import listener.ParserErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -90,7 +92,37 @@ public class AntlrRoutineProcessorTest {
                 equalTo(routineIdentifier));
     }
         
-    private class StringBasedMumpsRoutine implements MumpsRoutine {
+    @Test
+    public void shouldLogParserErrors() {
+        //Parser error: Double quote after S command.
+        final MumpsRoutine routine = new StringBasedMumpsRoutine(
+                "HELLO",
+                "HELLO\n"
+                    + " SET \"\n");
+        final ParserErrorListener errorListener = new InMemoryParserErrorListener();
+        final AntlrRoutineProcessorBuilder builder = 
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = 
+                builder.setParserErrorListener(errorListener)
+                    .build();
+        processor.process(routine);
+        List<AntlrParserError> errors = errorListener.getParserErrors();
+        assertThat(errors.size(), greaterThan(0));
+        assertThat(
+                errors.get(0).getMessage(),
+                equalTo("no viable alternative at input ' \"'"));
+        assertThat(
+                errors.get(0).getLine(),
+                equalTo(2));
+        assertThat(
+                errors.get(0).getCharPositionInLine(),
+                equalTo(5));
+        assertThat(
+                errors.get(0).getIdentifier(),
+                equalTo("HELLO"));
+    }
+    
+    private final class StringBasedMumpsRoutine implements MumpsRoutine {
         private final String identifier;
         private final String source;
 
@@ -100,12 +132,12 @@ public class AntlrRoutineProcessorTest {
         }        
         
         @Override
-        public String asString() {
+        public final String asString() {
             return source;
         }
 
         @Override
-        public String identifier() {
+        public final String identifier() {
             return identifier;
         }        
     }

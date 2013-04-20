@@ -73,18 +73,4 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
     public final void setMumpsRoutine(MumpsRoutine routine) {
         this.routine = routine;
     }
-    
-    private final class NullMumpsRoutine implements MumpsRoutine {
-
-        @Override
-        public final String asString() {
-            return "";
-        }
-
-        @Override
-        public final String identifier() {
-            return "";
-        }
-        
-    }
 }
