@@ -90,6 +90,7 @@
                     <failIfMissing>true</failIfMissing>
                     <strictCheck>true</strictCheck>
                     <excludes>
+                        <exclude>lexer_errors.log</exclude>
                         <exclude>licenseHeader.txt</exclude>
                         <exclude>**/build/**</exclude>
                         <exclude>**/dist/**</exclude>
@@ -108,7 +109,7 @@
                     <properties>
                         <year>2013</year>
                         <name>Chris Barthauer</name>
-                        <email>cbarthauer@gmail.com</email>
+                        <email>mumpsanalyzer@gmail.com</email>
                     </properties>
                 </configuration>
                 <executions>

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2013 Chris Barthauer <cbarthauer@gmail.com>
+ * Copyright (C) 2013 Chris Barthauer <mumpsanalyzer@gmail.com>
  *
  * This file is part of MumpsAnalyzer.
  *
