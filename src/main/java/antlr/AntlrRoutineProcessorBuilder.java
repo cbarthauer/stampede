@@ -19,8 +19,12 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-package analyzer;
+package antlr;
 
+import analyzer.MumpsRoutine;
+import listener.AntlrError;
+import listener.MetricListener;
+import listener.LexerErrorListener;
 import java.util.ArrayList;
 import java.util.List;
 import listener.ParserErrorListener;
@@ -95,8 +99,8 @@ public final class AntlrRoutineProcessorBuilder {
             implements LexerErrorListener {
 
         @Override
-        public final List<AntlrLexerError> getLexerErrors() {
-            return new ArrayList<AntlrLexerError>();
+        public final List<AntlrError> getLexerErrors() {
+            return new ArrayList<AntlrError>();
         }
 
         @Override
@@ -110,8 +114,8 @@ public final class AntlrRoutineProcessorBuilder {
             implements ParserErrorListener {
 
         @Override
-        public final List<AntlrParserError> getParserErrors() {
-            return new ArrayList<AntlrParserError>();
+        public final List<AntlrError> getParserErrors() {
+            return new ArrayList<AntlrError>();
         }
 
         @Override

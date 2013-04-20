@@ -2,7 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package analyzer;
+package listener;
+
+import analyzer.MumpsRoutine;
 
 public final class NullMumpsRoutine implements MumpsRoutine {
 

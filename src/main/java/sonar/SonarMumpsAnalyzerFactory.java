@@ -21,11 +21,11 @@
  */
 package sonar;
 
-import analyzer.AntlrRoutineProcessorBuilder;
-import analyzer.InMemoryLexerErrorListener;
+import antlr.AntlrRoutineProcessorBuilder;
+import listener.InMemoryLexerErrorListener;
 import analyzer.InMemoryMetricStore;
-import analyzer.LexerErrorListener;
-import analyzer.MetricListener;
+import listener.LexerErrorListener;
+import listener.MetricListener;
 import analyzer.MetricStore;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;

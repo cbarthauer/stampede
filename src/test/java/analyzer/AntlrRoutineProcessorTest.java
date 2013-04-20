@@ -21,6 +21,11 @@
  */
 package analyzer;
 
+import antlr.AntlrRoutineProcessorBuilder;
+import listener.AntlrError;
+import listener.MetricListener;
+import listener.LexerErrorListener;
+import listener.InMemoryLexerErrorListener;
 import java.util.List;
 import listener.InMemoryParserErrorListener;
 import listener.ParserErrorListener;
@@ -74,7 +79,7 @@ public class AntlrRoutineProcessorTest {
                 .build();
         
         processor.process(routine); 
-        List<AntlrLexerError> errors = errorListener.getLexerErrors();
+        List<AntlrError> errors = errorListener.getLexerErrors();
         
         assertThat(errors.size(), greaterThan(0));
         assertThat(
@@ -106,7 +111,7 @@ public class AntlrRoutineProcessorTest {
                 builder.setParserErrorListener(errorListener)
                     .build();
         processor.process(routine);
-        List<AntlrParserError> errors = errorListener.getParserErrors();
+        List<AntlrError> errors = errorListener.getParserErrors();
         assertThat(errors.size(), greaterThan(0));
         assertThat(
                 errors.get(0).getMessage(),

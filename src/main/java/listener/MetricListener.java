@@ -19,8 +19,9 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-package analyzer;
+package listener;
 
+import analyzer.Metric;
 import grammar.MListener;
 
 /**

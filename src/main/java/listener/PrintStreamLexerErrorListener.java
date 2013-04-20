@@ -21,9 +21,6 @@
  */
 package listener;
 
-import analyzer.AntlrLexerError;
-import analyzer.InMemoryLexerErrorListener;
-import analyzer.LexerErrorListener;
 import analyzer.MumpsRoutine;
 import java.io.PrintStream;
 import java.util.List;
@@ -74,12 +71,12 @@ public final class PrintStreamLexerErrorListener extends BaseErrorListener
                 charPositionInLine, 
                 msg, 
                 e);
-        List<AntlrLexerError> errors = wrappedListener.getLexerErrors();
+        List<AntlrError> errors = wrappedListener.getLexerErrors();
         out.println(errors.get(errors.size() - 1));
     }
 
     @Override
-    public final List<AntlrLexerError> getLexerErrors() {
+    public final List<AntlrError> getLexerErrors() {
         return wrappedListener.getLexerErrors();
     }
 

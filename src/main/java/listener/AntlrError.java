@@ -19,31 +19,31 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-package analyzer;
+package listener;
 
 /**
- * This class represents a lexer error occurring while lexing
+ * This class represents a lexer or parser error occurring while processing
  * MUMPS source code. Instances of this class are immutable.
  * 
  * @author cbarthauer
  */
-public final class AntlrLexerError {
+public final class AntlrError {
     private final String identifier;
     private final String message;
     private final int line;
     private final int charPositionInLine;
     
     /**
-     * Create a new lexer error.
+     * Create a new ANTLR error.
      * 
      * @param identifier Uniquely identifies the containing
      *     MUMPS routine
-     * @param message ANTLR lexer error message
+     * @param message ANTLR error message
      * @param line Line number where error occurred
      * @param charPositionInLine Character position in line where
      *     error occurred
      */
-    public AntlrLexerError(
+    public AntlrError(
             String identifier,
             String message,
             int line,
@@ -55,7 +55,7 @@ public final class AntlrLexerError {
     }
     
     /**
-     * Get the character position of the lexer error.
+     * Get the character position of the error.
      * 
      * @return Numeric value of character position
      */
@@ -65,7 +65,7 @@ public final class AntlrLexerError {
     
     /**
      * Get the unique identifier for the MUMPS routine
-     * containing this lexer error.
+     * containing this error.
      * 
      * @return Unique identifier
      */
@@ -74,7 +74,7 @@ public final class AntlrLexerError {
     }
     
     /**
-     * Get the line number where the lexer error occurs.
+     * Get the line number where the error occurs.
      * 
      * @return Numeric value of line number
      */
@@ -83,9 +83,9 @@ public final class AntlrLexerError {
     }
     
     /**
-     * Get the text of the lexer error message.
+     * Get the text of the error message.
      * 
-     * @return Lexer error message
+     * @return Error message
      */
     public final String getMessage() {
         return message;

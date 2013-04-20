@@ -19,8 +19,9 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-package analyzer;
+package listener;
 
+import analyzer.MumpsRoutine;
 import java.util.List;
 import org.antlr.v4.runtime.ANTLRErrorListener;
 
@@ -39,7 +40,7 @@ public interface LexerErrorListener extends ANTLRErrorListener {
      * @return List of lexer errors. If no errors, returns an empty
      * list.
      */
-    public List<AntlrLexerError> getLexerErrors();
+    public List<AntlrError> getLexerErrors();
     
     /**
      * Specifies the MumpsRoutine which contains any lexer errors

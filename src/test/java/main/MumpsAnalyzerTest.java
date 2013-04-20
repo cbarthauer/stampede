@@ -21,14 +21,14 @@
  */
 package main;
 
-import analyzer.AntlrLexerError;
-import analyzer.AntlrRoutineProcessorBuilder;
+import listener.AntlrError;
+import antlr.AntlrRoutineProcessorBuilder;
 import analyzer.FileSystemSourceDistribution;
-import analyzer.InMemoryLexerErrorListener;
+import listener.InMemoryLexerErrorListener;
 import analyzer.InMemoryMetricStore;
-import analyzer.LexerErrorListener;
+import listener.LexerErrorListener;
 import analyzer.Metric;
-import analyzer.MetricListener;
+import listener.MetricListener;
 import analyzer.MetricResult;
 import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
@@ -155,7 +155,7 @@ public class MumpsAnalyzerTest {
                 store);
         analyzer.analyze();
         
-        List<AntlrLexerError> errors = errorListener.getLexerErrors();
+        List<AntlrError> errors = errorListener.getLexerErrors();
         assertThat(errors.size(), equalTo(0));
     }
 }

@@ -22,7 +22,6 @@
 package listener;
 
 import analyzer.Metric;
-import analyzer.MetricListener;
 import grammar.MBaseListener;
 import grammar.MListener;
 import grammar.MParser;

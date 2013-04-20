@@ -19,8 +19,9 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-package analyzer;
+package listener;
 
+import analyzer.MumpsRoutine;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -36,7 +37,7 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
         implements LexerErrorListener {
 
     private MumpsRoutine routine;
-    private final List<AntlrLexerError> errors;
+    private final List<AntlrError> errors;
     
     /**
      * Creates InMemoryLexerErrorListener and initializes in-memory
@@ -44,7 +45,7 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
      */
     public InMemoryLexerErrorListener() {
         this.routine = new NullMumpsRoutine();
-        this.errors = new ArrayList<AntlrLexerError>();
+        this.errors = new ArrayList<AntlrError>();
     }
     
     @Override
@@ -57,7 +58,7 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
             RecognitionException e) {
         
         errors.add(
-                new AntlrLexerError(
+                new AntlrError(
                     routine.identifier(),
                     msg,
                     line,
@@ -65,8 +66,8 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
     }
     
     @Override
-    public final List<AntlrLexerError> getLexerErrors() {
-        return new ArrayList<AntlrLexerError>(errors);
+    public final List<AntlrError> getLexerErrors() {
+        return new ArrayList<AntlrError>(errors);
     }
     
     @Override

@@ -1,8 +1,6 @@
 package listener;
 
-import analyzer.AntlrParserError;
 import analyzer.MumpsRoutine;
-import analyzer.NullMumpsRoutine;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.BaseErrorListener;
@@ -17,11 +15,11 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
         implements ParserErrorListener {
     
     private MumpsRoutine routine;
-    private final List<AntlrParserError> errors;
+    private final List<AntlrError> errors;
 
     public InMemoryParserErrorListener() {
         this.routine = new NullMumpsRoutine();
-        this.errors = new ArrayList<AntlrParserError>();
+        this.errors = new ArrayList<AntlrError>();
     }
     
     @Override
@@ -34,7 +32,7 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
             RecognitionException e) {
         
         errors.add(
-                new AntlrParserError(
+                new AntlrError(
                     routine.identifier(),
                     msg,
                     line,
@@ -42,8 +40,8 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
     }
     
     @Override
-    public final List<AntlrParserError> getParserErrors() {
-        return new ArrayList<AntlrParserError>(errors);
+    public final List<AntlrError> getParserErrors() {
+        return new ArrayList<AntlrError>(errors);
     }
 
     @Override
