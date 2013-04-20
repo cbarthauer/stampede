@@ -40,6 +40,7 @@ import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import listener.PrintStreamLexerErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -156,49 +157,5 @@ public class MumpsAnalyzerTest {
         
         List<AntlrLexerError> errors = errorListener.getLexerErrors();
         assertThat(errors.size(), equalTo(0));
-    }
-    
-    private class PrintStreamLexerErrorListener extends BaseErrorListener 
-        implements LexerErrorListener {
-
-        private PrintStream out;
-        private InMemoryLexerErrorListener wrappedListener;
-        
-        private PrintStreamLexerErrorListener(
-                PrintStream out,
-                InMemoryLexerErrorListener wrappedListener) {
-            this.out = out;
-            this.wrappedListener = wrappedListener;
-        }
-        
-        @Override
-        public void syntaxError(
-                Recognizer<?, ?> recognizer, 
-                Object offendingSymbol, 
-                int line, 
-                int charPositionInLine, 
-                String msg, 
-                RecognitionException e) {
-            
-            wrappedListener.syntaxError(
-                    recognizer, 
-                    offendingSymbol, 
-                    line, 
-                    charPositionInLine, 
-                    msg, 
-                    e);
-            List<AntlrLexerError> errors = wrappedListener.getLexerErrors();
-            out.println(errors.get(errors.size() - 1));
-        }
-        
-        @Override
-        public List<AntlrLexerError> getLexerErrors() {
-            return wrappedListener.getLexerErrors();
-        }
-
-        @Override
-        public void setMumpsRoutine(MumpsRoutine routine) {
-            wrappedListener.setMumpsRoutine(routine);
-        }        
     }
 }

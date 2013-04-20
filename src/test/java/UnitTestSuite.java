@@ -27,6 +27,7 @@ import listener.LineCountListenerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
+import sonar.SonarMumpsAnalyzerFactoryTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -34,6 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
     FileBasedMumpsRoutineTest.class,
     FileSystemSourceDistributionTest.class,
     InMemoryMetricStoreTest.class,
-    LineCountListenerTest.class
+    LineCountListenerTest.class,
+    SonarMumpsAnalyzerFactoryTest.class
 })
 public class UnitTestSuite {}
