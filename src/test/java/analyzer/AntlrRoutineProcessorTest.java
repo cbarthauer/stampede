@@ -21,11 +21,7 @@
  */
 package analyzer;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import org.antlr.v4.runtime.ANTLRErrorListener;
-import org.antlr.v4.runtime.BaseErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -42,8 +38,10 @@ public class AntlrRoutineProcessorTest {
         final MumpsRoutine routine = context.mock(MumpsRoutine.class);
         final MetricListener listener = context.mock(MetricListener.class);
         
-        RoutineProcessor processor = 
-                new AntlrRoutineProcessor(listener);
+        final AntlrRoutineProcessorBuilder builder = 
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = builder.setMetricListeners(listener)
+                .build();
         
         context.checking(new Expectations() {{
             oneOf(routine).asString();
@@ -67,8 +65,8 @@ public class AntlrRoutineProcessorTest {
         final String routineIdentifier = "HELLO";
         MumpsRoutine routine = new StringBasedMumpsRoutine(
                 routineIdentifier, "HELLO " + unicodeSigmaCharacter + "\n");
-        AntlrLexerErrorListener errorListener = 
-                new AntlrLexerErrorListener();
+        LexerErrorListener errorListener = 
+                new InMemoryLexerErrorListener();
         AntlrRoutineProcessorBuilder builder = new AntlrRoutineProcessorBuilder();
         RoutineProcessor processor = builder.setLexerErrorListener(errorListener)
                 .build();

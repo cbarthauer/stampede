@@ -21,7 +21,7 @@
  */
 package sonar;
 
-import analyzer.AntlrRoutineProcessor;
+import analyzer.AntlrRoutineProcessorBuilder;
 import analyzer.InMemoryMetricStore;
 import analyzer.Metric;
 import analyzer.MetricListener;
@@ -72,7 +72,10 @@ public final class MumpsSensor implements Sensor {
     private Iterator<MetricResult> getMetricResultIterator(List<InputFile> inputFiles) {
         final SourceDistribution distribution = new SonarSourceDistribution(inputFiles);
         final MetricListener listener = new LineCountListener();
-        final RoutineProcessor processor = new AntlrRoutineProcessor(listener);
+        final AntlrRoutineProcessorBuilder builder = 
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = builder.setMetricListeners(listener)
+                .build();
         MetricStore store = new InMemoryMetricStore();
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
                 distribution,

@@ -21,9 +21,12 @@
  */
 package main;
 
-import analyzer.AntlrRoutineProcessor;
+import analyzer.AntlrLexerError;
+import analyzer.AntlrRoutineProcessorBuilder;
 import analyzer.FileSystemSourceDistribution;
+import analyzer.InMemoryLexerErrorListener;
 import analyzer.InMemoryMetricStore;
+import analyzer.LexerErrorListener;
 import analyzer.Metric;
 import analyzer.MetricListener;
 import analyzer.MetricResult;
@@ -33,8 +36,13 @@ import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
 import listener.LineCountListener;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -45,12 +53,13 @@ import org.junit.Rule;
 public class MumpsAnalyzerTest { 
     private final String MUMPS_FILE_PATH 
             = "D:\\mspace\\VistA-FOIA\\Packages\\Toolkit\\Routines\\XINDEX.m";
-    private final String MUMPS_FOLDER_PATH
+    private final String VISTA_ACCOUNTS_RECEIVABLE_PATH
             = "D:\\mspace\\VistA-FOIA\\Packages\\Accounts Receivable\\Routines";
+    private final String VISTA_INTEGRATED_BILLING_PATH
+            = "D:\\mspace\\VistA-FOIA\\Packages\\Integrated Billing\\Routines";
     
     @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
-    
+    public JUnitRuleMockery context = new JUnitRuleMockery();    
     
     @Test
     public void analyzeSkeleton() {
@@ -80,7 +89,10 @@ public class MumpsAnalyzerTest {
         final SourceDistribution distribution = 
                 new FileSystemSourceDistribution(inputFile);
         final MetricListener listener = new LineCountListener();
-        final RoutineProcessor processor = new AntlrRoutineProcessor(listener);
+        final AntlrRoutineProcessorBuilder builder = 
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = builder.setMetricListeners(listener)
+                .build();
         final MetricStore store = new InMemoryMetricStore();
         
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
@@ -94,11 +106,14 @@ public class MumpsAnalyzerTest {
     
     @Test
     public void analyzeFolderOfRoutines() {
-        final File inputFile = new File(MUMPS_FOLDER_PATH);
+        final File inputFile = new File(VISTA_ACCOUNTS_RECEIVABLE_PATH);
         final SourceDistribution distribution = 
                 new FileSystemSourceDistribution(inputFile);
         final MetricListener listener = new LineCountListener();
-        final RoutineProcessor processor = new AntlrRoutineProcessor(listener);
+        final AntlrRoutineProcessorBuilder builder = 
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = builder.setMetricListeners(listener)
+                .build();
         MetricStore store = new InMemoryMetricStore();
         
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
@@ -111,7 +126,79 @@ public class MumpsAnalyzerTest {
         
         Iterator<MetricResult> iterator = store.iterator();
         MetricResult result = iterator.next();
-        assertThat(MUMPS_FOLDER_PATH + "\\PRCA219P.m", equalTo(result.getPath()));
+        assertThat(
+                VISTA_ACCOUNTS_RECEIVABLE_PATH 
+                    + "\\PRCA219P.m", 
+                equalTo(result.getPath()));
         assertThat(96.0, equalTo(result.getDouble(Metric.LOC)));
+    }
+    
+    @Test
+    public void shouldProcessDistributionWithNoLexerErrors() {
+        final File inputFile = new File(VISTA_INTEGRATED_BILLING_PATH);
+        final SourceDistribution distribution =
+                new FileSystemSourceDistribution(inputFile);
+        final LexerErrorListener errorListener = 
+                new PrintStreamLexerErrorListener(
+                    System.out,
+                    new InMemoryLexerErrorListener());
+        final AntlrRoutineProcessorBuilder builder =
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = 
+                builder.setLexerErrorListener(errorListener)
+                    .build();
+        final MetricStore store = new InMemoryMetricStore();
+        final MumpsAnalyzer analyzer = new MumpsAnalyzer(
+                distribution,
+                processor,
+                store);
+        analyzer.analyze();
+        
+        List<AntlrLexerError> errors = errorListener.getLexerErrors();
+        assertThat(errors.size(), equalTo(0));
+    }
+    
+    private class PrintStreamLexerErrorListener extends BaseErrorListener 
+        implements LexerErrorListener {
+
+        private PrintStream out;
+        private InMemoryLexerErrorListener wrappedListener;
+        
+        private PrintStreamLexerErrorListener(
+                PrintStream out,
+                InMemoryLexerErrorListener wrappedListener) {
+            this.out = out;
+            this.wrappedListener = wrappedListener;
+        }
+        
+        @Override
+        public void syntaxError(
+                Recognizer<?, ?> recognizer, 
+                Object offendingSymbol, 
+                int line, 
+                int charPositionInLine, 
+                String msg, 
+                RecognitionException e) {
+            
+            wrappedListener.syntaxError(
+                    recognizer, 
+                    offendingSymbol, 
+                    line, 
+                    charPositionInLine, 
+                    msg, 
+                    e);
+            List<AntlrLexerError> errors = wrappedListener.getLexerErrors();
+            out.println(errors.get(errors.size() - 1));
+        }
+        
+        @Override
+        public List<AntlrLexerError> getLexerErrors() {
+            return wrappedListener.getLexerErrors();
+        }
+
+        @Override
+        public void setMumpsRoutine(MumpsRoutine routine) {
+            wrappedListener.setMumpsRoutine(routine);
+        }        
     }
 }

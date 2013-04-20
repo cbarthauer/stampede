@@ -33,7 +33,7 @@ options {
 //Characters which are part of the character set 
 //but are not specified elsewhere in the grammar.
 CHAR
-  : '/' | '*' | '^' | '|' | '~' | '#' | '\\' | '`'
+  : '/' | '*' | '^' | '|' | '~' | '#' | '\\' | '`' | '{' | '}'
   ;
   
 INTEGER

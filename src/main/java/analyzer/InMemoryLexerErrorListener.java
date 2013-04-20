@@ -11,12 +11,17 @@ import org.antlr.v4.runtime.Recognizer;
  * 
  * @author cbarthauer
  */
-public final class AntlrLexerErrorListener extends BaseErrorListener {
+public final class InMemoryLexerErrorListener extends BaseErrorListener 
+        implements LexerErrorListener {
 
     private MumpsRoutine routine;
     private final List<AntlrLexerError> errors;
     
-    public AntlrLexerErrorListener() {
+    /**
+     * Creates InMemoryLexerErrorListener and initializes in-memory
+     * data structure.
+     */
+    public InMemoryLexerErrorListener() {
         this.routine = new NullMumpsRoutine();
         this.errors = new ArrayList<AntlrLexerError>();
     }
@@ -38,23 +43,25 @@ public final class AntlrLexerErrorListener extends BaseErrorListener {
                     charPositionInLine));
     }
     
+    @Override
     public final List<AntlrLexerError> getLexerErrors() {
         return new ArrayList<AntlrLexerError>(errors);
     }
     
+    @Override
     public final void setMumpsRoutine(MumpsRoutine routine) {
         this.routine = routine;
     }
     
-    private class NullMumpsRoutine implements MumpsRoutine {
+    private final class NullMumpsRoutine implements MumpsRoutine {
 
         @Override
-        public String asString() {
+        public final String asString() {
             return "";
         }
 
         @Override
-        public String identifier() {
+        public final String identifier() {
             return "";
         }
         

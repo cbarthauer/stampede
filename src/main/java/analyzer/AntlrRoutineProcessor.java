@@ -27,9 +27,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
@@ -39,23 +37,20 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 public final class AntlrRoutineProcessor implements RoutineProcessor {
 
-    private List<MetricListener> metricListeners;
-    private final AntlrLexerErrorListener lexerErrorListener;
+    private final List<MetricListener> metricListeners;
+    private final LexerErrorListener lexerErrorListener;
     
     /**
      * Creates an AntlrRoutineProcessor which notifies each of the given
      * {@link analyzer.MetricListener} objects appropriately as it
      * processes each {@link analyzer.MumpsRoutine}.
      * 
+     * @param lexerErrorListener The listener to be notified of lexer errors.
      * @param metricListeners The listeners which the AntlrRoutineProcessor
      * will notify with parse events.
-     */
-    public AntlrRoutineProcessor(MetricListener... metricListeners) {
-        this(new AntlrLexerErrorListener(), metricListeners);
-    }
-    
-    public AntlrRoutineProcessor(
-            AntlrLexerErrorListener lexerErrorListener, 
+     */    
+    AntlrRoutineProcessor(
+            LexerErrorListener lexerErrorListener, 
             MetricListener... metricListeners) {
         
         this.lexerErrorListener = lexerErrorListener;
@@ -63,7 +58,7 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
     }
 
     @Override
-    public Map<String, Map<Metric, Integer>> process(MumpsRoutine routine) {
+    public final Map<String, Map<Metric, Integer>> process(MumpsRoutine routine) {
         ANTLRInputStream input = new ANTLRInputStream(routine.asString());
         MLexer lexer = new MLexer(input);
         lexerErrorListener.setMumpsRoutine(routine);
