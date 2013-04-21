@@ -27,7 +27,7 @@ package listener;
  * 
  * @author cbarthauer
  */
-public final class AntlrError {
+public final class AntlrError implements MumpsSyntaxError {
     private final String identifier;
     private final String message;
     private final int line;
@@ -54,39 +54,22 @@ public final class AntlrError {
         this.charPositionInLine = charPositionInLine;
     }
     
-    /**
-     * Get the character position of the error.
-     * 
-     * @return Numeric value of character position
-     */
+    @Override
     public final int getCharPositionInLine() {
         return charPositionInLine;
     }
     
-    /**
-     * Get the unique identifier for the MUMPS routine
-     * containing this error.
-     * 
-     * @return Unique identifier
-     */
+    @Override
     public final String getIdentifier() {
         return identifier;
     }
     
-    /**
-     * Get the line number where the error occurs.
-     * 
-     * @return Numeric value of line number
-     */
+    @Override
     public final int getLine() {
         return line;
     }
     
-    /**
-     * Get the text of the error message.
-     * 
-     * @return Error message
-     */
+    @Override
     public final String getMessage() {
         return message;
     }

@@ -71,12 +71,12 @@ public final class PrintStreamLexerErrorListener extends BaseErrorListener
                 charPositionInLine, 
                 msg, 
                 e);
-        List<AntlrError> errors = wrappedListener.getLexerErrors();
+        List<MumpsSyntaxError> errors = wrappedListener.getLexerErrors();
         out.println(errors.get(errors.size() - 1));
     }
 
     @Override
-    public final List<AntlrError> getLexerErrors() {
+    public final List<MumpsSyntaxError> getLexerErrors() {
         return wrappedListener.getLexerErrors();
     }
 

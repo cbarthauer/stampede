@@ -24,6 +24,7 @@ package sonar;
 import analyzer.Metric;
 import analyzer.MetricResult;
 import java.util.List;
+import listener.MumpsSyntaxError;
 import main.MumpsAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,9 @@ import org.sonar.api.resources.File;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
+import org.sonar.api.rules.Rule;
+import org.sonar.api.rules.RuleFinder;
+import org.sonar.api.rules.Violation;
 
 /**
  * This class analyzes a MUMPS source distribution stored in the file system and
@@ -44,7 +48,13 @@ import org.sonar.api.resources.Qualifiers;
 public final class MumpsSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
+    
+    private final RuleFinder ruleFinder;
 
+    public MumpsSensor(RuleFinder ruleFinder) {
+        this.ruleFinder = ruleFinder;
+    }
+    
     @Override
     public final boolean shouldExecuteOnProject(Project project) {
         return project.getLanguage().getKey().equals(Mumps.KEY);
@@ -68,6 +78,7 @@ public final class MumpsSensor implements Sensor {
         analyzer.analyze();
         
         saveMetricResults(project, context, analyzer.metricResults());
+        saveSyntaxErrors(project, context, analyzer.syntaxErrors());
     }
 
     private void analyseProject(Project project, SensorContext context) {
@@ -91,6 +102,26 @@ public final class MumpsSensor implements Sensor {
                     sonarFile,
                     CoreMetrics.LINES,
                     result.getDouble(Metric.LOC));
+        }
+    }
+
+    private void saveSyntaxErrors(
+            Project project, 
+            SensorContext context, 
+            List<MumpsSyntaxError> syntaxErrors) {
+        
+        Rule rule = ruleFinder.findByKey(MumpsRuleRepository.KEY, "syntaxError");
+        
+        for(MumpsSyntaxError error : syntaxErrors) {
+            File sonarFile = File.fromIOFile(
+                    new java.io.File(error.getIdentifier()),
+                    project);
+            sonarFile.setEffectiveKey(
+                    project.getKey() + ":" + sonarFile.getKey());
+            Violation violation = Violation.create(rule, sonarFile)
+                    .setLineId(error.getLine())
+                    .setMessage(error.getMessage());
+            context.saveViolation(violation);
         }
     }
 }

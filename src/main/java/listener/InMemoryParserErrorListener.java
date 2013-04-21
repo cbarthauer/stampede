@@ -37,7 +37,7 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
         implements ParserErrorListener {
     
     private MumpsRoutine routine;
-    private final List<AntlrError> errors;
+    private final List<MumpsSyntaxError> errors;
 
     /**
      * Creates InMemoryParserErrorListener and initializes in-memory
@@ -45,7 +45,7 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
      */
     public InMemoryParserErrorListener() {
         this.routine = new NullMumpsRoutine();
-        this.errors = new ArrayList<AntlrError>();
+        this.errors = new ArrayList<MumpsSyntaxError>();
     }
     
     @Override
@@ -66,8 +66,8 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
     }
     
     @Override
-    public final List<AntlrError> getParserErrors() {
-        return new ArrayList<AntlrError>(errors);
+    public final List<MumpsSyntaxError> getParserErrors() {
+        return new ArrayList<MumpsSyntaxError>(errors);
     }
 
     @Override

@@ -21,7 +21,9 @@
  */
 package analyzer;
 
+import java.util.List;
 import java.util.Map;
+import listener.MumpsSyntaxError;
 
 /**
  * This interface models an object which can process the source code
@@ -37,4 +39,6 @@ public interface RoutineProcessor {
      * @return A data structure containing the results.
      */
     public Map<String, Map<Metric, Integer>> process(MumpsRoutine routine);
+    
+    public List<MumpsSyntaxError> syntaxErrors();
 }

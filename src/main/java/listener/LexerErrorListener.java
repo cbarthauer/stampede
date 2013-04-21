@@ -40,7 +40,7 @@ public interface LexerErrorListener extends ANTLRErrorListener {
      * @return List of lexer errors. If no errors, returns an empty
      * list.
      */
-    public List<AntlrError> getLexerErrors();
+    public List<MumpsSyntaxError> getLexerErrors();
     
     /**
      * Specifies the MumpsRoutine which contains any lexer errors

@@ -27,6 +27,7 @@ import listener.MetricListener;
 import listener.LexerErrorListener;
 import java.util.ArrayList;
 import java.util.List;
+import listener.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 
@@ -106,8 +107,8 @@ public final class AntlrRoutineProcessorBuilder {
             implements LexerErrorListener {
 
         @Override
-        public final List<AntlrError> getLexerErrors() {
-            return new ArrayList<AntlrError>();
+        public final List<MumpsSyntaxError> getLexerErrors() {
+            return new ArrayList<MumpsSyntaxError>();
         }
 
         @Override
@@ -121,8 +122,8 @@ public final class AntlrRoutineProcessorBuilder {
             implements ParserErrorListener {
 
         @Override
-        public final List<AntlrError> getParserErrors() {
-            return new ArrayList<AntlrError>();
+        public final List<MumpsSyntaxError> getParserErrors() {
+            return new ArrayList<MumpsSyntaxError>();
         }
 
         @Override

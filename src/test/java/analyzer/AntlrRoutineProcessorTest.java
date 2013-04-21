@@ -28,6 +28,7 @@ import listener.LexerErrorListener;
 import listener.InMemoryLexerErrorListener;
 import java.util.List;
 import listener.InMemoryParserErrorListener;
+import listener.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
@@ -79,7 +80,7 @@ public class AntlrRoutineProcessorTest {
                 .build();
         
         processor.process(routine); 
-        List<AntlrError> errors = errorListener.getLexerErrors();
+        List<MumpsSyntaxError> errors = processor.syntaxErrors();
         
         assertThat(errors.size(), greaterThan(0));
         assertThat(
@@ -111,7 +112,7 @@ public class AntlrRoutineProcessorTest {
                 builder.setParserErrorListener(errorListener)
                     .build();
         processor.process(routine);
-        List<AntlrError> errors = errorListener.getParserErrors();
+        List<MumpsSyntaxError> errors = processor.syntaxErrors();
         assertThat(errors.size(), greaterThan(0));
         assertThat(
                 errors.get(0).getMessage(),

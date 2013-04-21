@@ -1,0 +1,12 @@
+<rules>
+
+  <!-- MumpsAnalyzer -->
+  <rule>
+    <key>syntaxError</key>
+    <name><![CDATA[Syntax Error]]></name>
+    <priority>BLOCKER</priority>
+    <configKey>syntaxError</configKey>
+    <description>MUMPS syntax error detected.</description>
+  </rule>
+
+</rules>

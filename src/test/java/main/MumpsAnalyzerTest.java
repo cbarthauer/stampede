@@ -41,6 +41,7 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 import listener.InMemoryParserErrorListener;
+import listener.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
@@ -158,7 +159,7 @@ public class MumpsAnalyzerTest {
                 store);
         analyzer.analyze();
         
-        List<AntlrError> errors = errorListener.getLexerErrors();
+        List<MumpsSyntaxError> errors = analyzer.syntaxErrors();
         assertThat(errors.size(), equalTo(0));
     }
     
@@ -184,7 +185,7 @@ public class MumpsAnalyzerTest {
                 store);
         analyzer.analyze();
         
-        List<AntlrError> errors = errorListener.getParserErrors();
+        List<MumpsSyntaxError> errors = analyzer.syntaxErrors();
         
         //There appears to be one bona fide syntax error in the VistA-FOIA code.
         assertThat(errors.size(), equalTo(1));

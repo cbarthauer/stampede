@@ -28,10 +28,12 @@ import listener.MetricListener;
 import listener.LexerErrorListener;
 import grammar.MLexer;
 import grammar.MParser;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import listener.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -102,5 +104,13 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
         for(MetricListener listener : metricListeners) {
             listener.reset();
         }
+    }
+
+    @Override
+    public List<MumpsSyntaxError> syntaxErrors() {
+        List<MumpsSyntaxError> result = new ArrayList<MumpsSyntaxError>();
+        result.addAll(lexerErrorListener.getLexerErrors());
+        result.addAll(parserErrorListener.getParserErrors());
+        return result;
     }
 }

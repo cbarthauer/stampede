@@ -13,6 +13,7 @@
     <properties>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
         <sonar.exclusions>grammar/M*.java</sonar.exclusions>
+        <sonar.forceAnalysis>true</sonar.forceAnalysis>
     </properties>
   
     <dependencies>

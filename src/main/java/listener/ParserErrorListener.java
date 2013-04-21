@@ -40,7 +40,7 @@ public interface ParserErrorListener extends ANTLRErrorListener {
      * @return List of parsing errors. If no errors, returns an empty
      * list.
      */
-    public List<AntlrError> getParserErrors();
+    public List<MumpsSyntaxError> getParserErrors();
 
     /**
      * Specifies the MumpsRoutine which contains any parsing errors

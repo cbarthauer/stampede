@@ -37,7 +37,7 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
         implements LexerErrorListener {
 
     private MumpsRoutine routine;
-    private final List<AntlrError> errors;
+    private final List<MumpsSyntaxError> errors;
     
     /**
      * Creates InMemoryLexerErrorListener and initializes in-memory
@@ -45,7 +45,7 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
      */
     public InMemoryLexerErrorListener() {
         this.routine = new NullMumpsRoutine();
-        this.errors = new ArrayList<AntlrError>();
+        this.errors = new ArrayList<MumpsSyntaxError>();
     }
     
     @Override
@@ -66,8 +66,8 @@ public final class InMemoryLexerErrorListener extends BaseErrorListener
     }
     
     @Override
-    public final List<AntlrError> getLexerErrors() {
-        return new ArrayList<AntlrError>(errors);
+    public final List<MumpsSyntaxError> getLexerErrors() {
+        return new ArrayList<MumpsSyntaxError>(errors);
     }
     
     @Override

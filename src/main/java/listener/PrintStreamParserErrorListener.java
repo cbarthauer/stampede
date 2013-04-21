@@ -71,12 +71,12 @@ public final class PrintStreamParserErrorListener extends BaseErrorListener
                 charPositionInLine, 
                 msg, 
                 e);
-        List<AntlrError> errors = wrappedListener.getParserErrors();
+        List<MumpsSyntaxError> errors = wrappedListener.getParserErrors();
         out.println(errors.get(errors.size() - 1));
     }
 
     @Override
-    public final List<AntlrError> getParserErrors() {
+    public final List<MumpsSyntaxError> getParserErrors() {
         return wrappedListener.getParserErrors();
     }
 

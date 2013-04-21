@@ -27,10 +27,12 @@ import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import listener.AntlrError;
+import listener.MumpsSyntaxError;
 
 /**
  * This class analyzes a collection of MUMPS routines, modeled by
@@ -92,4 +94,8 @@ public final class MumpsAnalyzer {
     public final int sum(Metric metric) {
         return store.sum(metric);
     }    
+
+    public final List<MumpsSyntaxError> syntaxErrors() {
+        return processor.syntaxErrors();
+    }
 }
