@@ -32,9 +32,14 @@ import analyzer.SourceDistribution;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.List;
+import listener.InMemoryParserErrorListener;
 import listener.LineCountListener;
+import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
+import listener.PrintStreamParserErrorListener;
 import main.MumpsAnalyzer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.InputFile;
 
 /**
@@ -45,6 +50,8 @@ import org.sonar.api.resources.InputFile;
  */
 final class SonarMumpsAnalyzerFactory {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SonarMumpsAnalyzerFactory.class);
+    
     /**
      * Creates a MumpsAnalyzer for the give inputFiles. The MumpsAnalyzer
      * is suitable for use within the Sonar MumpsSensor.
@@ -56,10 +63,12 @@ final class SonarMumpsAnalyzerFactory {
         final SourceDistribution distribution = new SonarSourceDistribution(inputFiles);
         final MetricListener metricListener = new LineCountListener();
         final LexerErrorListener lexerListener = getLexerErrorListener();
+        final ParserErrorListener parserListener = getParserErrorListener();
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
         final RoutineProcessor processor = builder.setMetricListeners(metricListener)
                 .setLexerErrorListener(lexerListener)
+                .setParserErrorListener(parserListener)
                 .build();
         MetricStore store = new InMemoryMetricStore();
         MumpsAnalyzer analyzer = new MumpsAnalyzer(
@@ -76,16 +85,30 @@ final class SonarMumpsAnalyzerFactory {
             out = new PrintStream(new java.io.File("lexer_errors.txt"));
         }
         catch(FileNotFoundException e) {
-            System.err.println("Unable to create lexer_errors.log; redirecting lexer errors to System.out.");
+            LOG.error("Unable to create lexer_errors.log; redirecting lexer errors to System.out.", e);
         }
         
         return new PrintStreamLexerErrorListener(
                 out, 
                 new InMemoryLexerErrorListener());
     }
+
+    private static ParserErrorListener getParserErrorListener() {
+        PrintStream out = System.out;
+        
+        try {
+            out = new PrintStream(new java.io.File("parser_errors.txt"));
+        }
+        catch(FileNotFoundException e) {
+            LOG.error("Unable to create parser_errors.log; redirecting parser errors to System.out.", e);
+        }
+        
+        return new PrintStreamParserErrorListener(
+                out, 
+                new InMemoryParserErrorListener());
+    }
     
     private SonarMumpsAnalyzerFactory() {
         //Hide utility class constructor.
-    }   
-    
+    }
 }
