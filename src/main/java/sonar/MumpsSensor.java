@@ -23,8 +23,6 @@ package sonar;
 
 import analyzer.Metric;
 import analyzer.MetricResult;
-import analyzer.MetricStore;
-import java.util.Iterator;
 import java.util.List;
 import main.MumpsAnalyzer;
 import org.slf4j.Logger;
@@ -65,10 +63,23 @@ public final class MumpsSensor implements Sensor {
 
     private void analyseModule(Project project, SensorContext context) {
         List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
-        Iterator<MetricResult> iterator = getMetricResultIterator(inputFiles);
+        MumpsAnalyzer analyzer = 
+                SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
+        analyzer.analyze();
+        
+        saveMetricResults(project, context, analyzer.metricResults());
+    }
 
-        while (iterator.hasNext()) {
-            MetricResult result = iterator.next();
+    private void analyseProject(Project project, SensorContext context) {
+        //Not implemented.
+    }
+
+    private void saveMetricResults(
+            Project project, 
+            SensorContext context, 
+            List<MetricResult> metricResults) {
+        
+        for (MetricResult result : metricResults) {
             File sonarFile = File.fromIOFile(
                     new java.io.File(result.getPath()),
                     project);
@@ -81,15 +92,5 @@ public final class MumpsSensor implements Sensor {
                     CoreMetrics.LINES,
                     result.getDouble(Metric.LOC));
         }
-    }
-
-    private void analyseProject(Project project, SensorContext context) {
-        //Not implemented.
-    }    
-    
-    private Iterator<MetricResult> getMetricResultIterator(List<InputFile> inputFiles) {
-        MumpsAnalyzer analyzer = SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
-        MetricStore store = analyzer.analyze();
-        return store.iterator();
     }
 }

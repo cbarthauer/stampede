@@ -22,6 +22,7 @@
 package analyzer;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,4 +62,6 @@ public interface MetricStore {
      * @param resultMap containing the data to append.
      */
     public void append(Map<String, Map<Metric, Integer>> resultMap);
+
+    public List<MetricResult> metricResults();
 }

@@ -44,8 +44,8 @@ public class SonarMumpsAnalyzerFactoryTest {
         MumpsAnalyzer analyzer = 
                 SonarMumpsAnalyzerFactory.getMumpsAnalyzer(
                     new ArrayList<InputFile>());
-        MetricStore store = analyzer.analyze();
-        assertThat(store.iterator().hasNext(), equalTo(false));
+        analyzer.analyze();
+        assertThat(analyzer.metricResults().size(), equalTo(0));
     }
     
 }

@@ -22,12 +22,15 @@
 package main;
 
 import analyzer.Metric;
+import analyzer.MetricResult;
 import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import listener.AntlrError;
 
 /**
  * This class analyzes a collection of MUMPS routines, modeled by
@@ -72,7 +75,7 @@ public final class MumpsAnalyzer {
      * @return MetricStore object containing the results of
      * the analysis.
      */
-    public final MetricStore analyze() {
+    public final void analyze() {
         Iterator<MumpsRoutine> iterator = distribution.iterator();
         
         while(iterator.hasNext()) {
@@ -80,8 +83,13 @@ public final class MumpsAnalyzer {
             Map<String, Map<Metric, Integer>> resultSet = processor.process(routine);
             store.append(resultSet);
         }
-        
-        return store.clone();
     }
     
+    public final List<MetricResult> metricResults() {
+        return store.metricResults();
+    }
+    
+    public final int sum(Metric metric) {
+        return store.sum(metric);
+    }    
 }

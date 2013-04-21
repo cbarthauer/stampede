@@ -38,7 +38,6 @@ import listener.LineCountListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import listener.InMemoryParserErrorListener;
@@ -80,11 +79,11 @@ public class MumpsAnalyzerTest {
             oneOf(distribution).iterator();
             never(processor).process(with(any(MumpsRoutine.class)));
             never(store).append(with(any(Map.class)));
-            oneOf(store).clone();
+            oneOf(store).sum(Metric.LOC);
         }});
         
-        MetricStore result = analyzer.analyze();        
-        assertThat(result.sum(Metric.LOC), equalTo(0));
+        analyzer.analyze();        
+        assertThat(analyzer.sum(Metric.LOC), equalTo(0));
     }
     
     @Test
@@ -104,8 +103,8 @@ public class MumpsAnalyzerTest {
                 processor, 
                 store);
         
-        MetricStore result = analyzer.analyze();
-        assertThat(result.sum(Metric.LOC), equalTo(144));
+        analyzer.analyze();
+        assertThat(analyzer.sum(Metric.LOC), equalTo(144));
     }
     
     @Test
@@ -125,11 +124,11 @@ public class MumpsAnalyzerTest {
                 processor, 
                 store);
         
-        store = analyzer.analyze();
-        assertThat(store.sum(Metric.LOC), equalTo(44620));
+        analyzer.analyze();
+        assertThat(analyzer.sum(Metric.LOC), equalTo(44620));
         
-        Iterator<MetricResult> iterator = store.iterator();
-        MetricResult result = iterator.next();
+        List<MetricResult> results = analyzer.metricResults();
+        MetricResult result = results.get(0);
         assertThat(
                 VISTA_ACCOUNTS_RECEIVABLE_PATH 
                     + "\\PRCA219P.m", 

@@ -51,15 +51,8 @@ public final class InMemoryMetricStore implements MetricStore {
     }
 
     @Override
-    public Iterator<MetricResult> iterator() {
-        List<MetricResult> result = new ArrayList<MetricResult>();
-        
-        for(String id : metricsByIdentifier.keySet()) {
-            Map<Metric, Integer> metricMap = metricsByIdentifier.get(id);
-            result.add(new MapBasedMetricResult(id, metricMap));
-        }
-        
-        return result.iterator();
+    public final Iterator<MetricResult> iterator() {
+        return metricResults().iterator();
     }
         
     @Override
@@ -78,4 +71,16 @@ public final class InMemoryMetricStore implements MetricStore {
     public final void append(Map<String, Map<Metric, Integer>> resultMap) {
         this.metricsByIdentifier.putAll(resultMap);
     }    
+
+    @Override
+    public final List<MetricResult> metricResults() {
+        List<MetricResult> result = new ArrayList<MetricResult>();
+        
+        for(String id : metricsByIdentifier.keySet()) {
+            Map<Metric, Integer> metricMap = metricsByIdentifier.get(id);
+            result.add(new MapBasedMetricResult(id, metricMap));
+        }
+        
+        return result;
+    }
 }
