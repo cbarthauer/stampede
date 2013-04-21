@@ -93,10 +93,9 @@ public final class AntlrError {
 
     @Override
     public final String toString() {
-        return "[" + identifier 
-                + "," + line 
-                + "," + charPositionInLine 
-                + "," + message 
-                + "]";
+        return identifier 
+                + "\t" + line 
+                + "\t" + charPositionInLine 
+                + "\t" + message;
     }
 }

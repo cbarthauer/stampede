@@ -34,7 +34,7 @@ import org.antlr.v4.runtime.ANTLRErrorListener;
  */
 public interface LexerErrorListener extends ANTLRErrorListener {
     /**
-     * Get a list of lexer errors which occured during MumpsRoutine
+     * Get a list of lexer errors which occurred during MumpsRoutine
      * processing. 
      * 
      * @return List of lexer errors. If no errors, returns an empty

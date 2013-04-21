@@ -67,12 +67,12 @@ public final class AntlrRoutineProcessorBuilder {
      * Register the given LexerErrorListener with the AntlrRoutineProcessor
      * to be built.
      * 
-     * @param errorListener to register
+     * @param lexerErrorListener to register
      * @return This builder
      */
     public final AntlrRoutineProcessorBuilder setLexerErrorListener(
-            LexerErrorListener errorListener) {
-        this.lexerErrorListener = errorListener;
+            LexerErrorListener lexerErrorListener) {
+        this.lexerErrorListener = lexerErrorListener;
         return this;
     }
 
@@ -89,6 +89,13 @@ public final class AntlrRoutineProcessorBuilder {
         return this;
     }
 
+    /**
+     * Register the given ParserErrorListener with the AntlrRoutineProcessor
+     * to be built.
+     * 
+     * @param parserErrorListener to register
+     * @return This builder
+     */
     public final AntlrRoutineProcessorBuilder setParserErrorListener(
             ParserErrorListener parserErrorListener) {
         this.parserErrorListener = parserErrorListener;

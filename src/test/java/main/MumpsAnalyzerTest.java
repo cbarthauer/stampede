@@ -36,14 +36,15 @@ import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
 import listener.LineCountListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import listener.InMemoryParserErrorListener;
+import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
+import listener.PrintStreamParserErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -58,6 +59,8 @@ public class MumpsAnalyzerTest {
             = "D:\\mspace\\VistA-FOIA\\Packages\\Accounts Receivable\\Routines";
     private final String VISTA_INTEGRATED_BILLING_PATH
             = "D:\\mspace\\VistA-FOIA\\Packages\\Integrated Billing\\Routines";
+    private final String VISTA_UNCATEGORIZED_PATH
+            = "D:\\mspace\\VistA-FOIA\\Packages\\Uncategorized\\Routines";
     
     @Rule
     public JUnitRuleMockery context = new JUnitRuleMockery();    
@@ -135,13 +138,14 @@ public class MumpsAnalyzerTest {
     }
     
     @Test
-    public void shouldProcessDistributionWithNoLexerErrors() {
-        final File inputFile = new File(VISTA_INTEGRATED_BILLING_PATH);
+    public void shouldProcessDistributionWithNoLexerErrors() 
+            throws FileNotFoundException {
+        final File inputFile = new File(VISTA_UNCATEGORIZED_PATH);
         final SourceDistribution distribution =
                 new FileSystemSourceDistribution(inputFile);
         final LexerErrorListener errorListener = 
                 new PrintStreamLexerErrorListener(
-                    System.out,
+                    new PrintStream(new File("lexer_errors.txt")),
                     new InMemoryLexerErrorListener());
         final AntlrRoutineProcessorBuilder builder =
                 new AntlrRoutineProcessorBuilder();
@@ -157,5 +161,36 @@ public class MumpsAnalyzerTest {
         
         List<AntlrError> errors = errorListener.getLexerErrors();
         assertThat(errors.size(), equalTo(0));
+    }
+    
+    @Test
+    public void shouldProcessDistributionWithNoParserErrors() 
+            throws FileNotFoundException {
+        final File inputFile = new File(VISTA_UNCATEGORIZED_PATH);
+        final SourceDistribution distribution =
+                new FileSystemSourceDistribution(inputFile);
+        final ParserErrorListener errorListener = 
+                new PrintStreamParserErrorListener(
+                    new PrintStream(new File("parser_errors.txt")),
+                    new InMemoryParserErrorListener());
+        final AntlrRoutineProcessorBuilder builder =
+                new AntlrRoutineProcessorBuilder();
+        final RoutineProcessor processor = 
+                builder.setParserErrorListener(errorListener)
+                    .build();
+        final MetricStore store = new InMemoryMetricStore();
+        final MumpsAnalyzer analyzer = new MumpsAnalyzer(
+                distribution,
+                processor,
+                store);
+        analyzer.analyze();
+        
+        List<AntlrError> errors = errorListener.getParserErrors();
+        
+        //There appears to be one bona fide syntax error in the VistA-FOIA code.
+        assertThat(errors.size(), equalTo(1));
+        final String identifier =
+            "D:\\mspace\\VistA-FOIA\\Packages\\Uncategorized\\Routines\\MUSMCR3.m";
+        assertThat(errors.get(0).getIdentifier(), equalTo(identifier));
     }
 }

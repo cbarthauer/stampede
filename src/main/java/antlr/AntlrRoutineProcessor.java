@@ -53,8 +53,9 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
      * processes each {@link analyzer.MumpsRoutine}.
      * 
      * @param lexerErrorListener The listener to be notified of lexer errors.
+     * @param parserErrorListener The listener to be notified of parser errors.
      * @param metricListeners The listeners which the AntlrRoutineProcessor
-     * will notify with parse events.
+     *     will notify with parse events.
      */    
     AntlrRoutineProcessor(
             LexerErrorListener lexerErrorListener, 

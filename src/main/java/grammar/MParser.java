@@ -44,9 +44,9 @@ public class MParser extends Parser {
 		SET=24, USE=25, WRITE=26, XECUTE=27, ID=28;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'\"'", "CHAR", "INTEGER", "'%'", "PAREN", "'.'", "':'", 
-		"'$'", "','", "NEWLINE", "OPERATOR", "';'", "' '", "STRING_LITERAL", "DO", 
-		"ELSE", "FOR", "GOTO", "IF", "KILL", "NEW", "QUIT", "READ", "SET", "USE", 
-		"WRITE", "XECUTE", "ID"
+		"'$'", "','", "NEWLINE", "OPERATOR", "';'", "SPACE", "STRING_LITERAL", 
+		"DO", "ELSE", "FOR", "GOTO", "IF", "KILL", "NEW", "QUIT", "READ", "SET", 
+		"USE", "WRITE", "XECUTE", "ID"
 	};
 	public static final int
 		RULE_argument = 0, RULE_cmdDo = 1, RULE_cmdElse = 2, RULE_cmdFor = 3, 

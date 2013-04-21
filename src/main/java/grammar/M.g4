@@ -85,6 +85,8 @@ SEMICOLON
   
 SPACE
   : ' '
+  | '\t' //Tab included as whitespace because ZZRCSUM.m (Uncategorized) 
+         //contains tabs.
   ;
 
 fragment

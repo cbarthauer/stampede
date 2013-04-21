@@ -22,32 +22,39 @@
 package listener;
 
 import analyzer.MumpsRoutine;
-import java.util.ArrayList;
+import java.io.PrintStream;
 import java.util.List;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 
 /**
- * This class records parsing errors for AntlrRoutineProcessor.
+ * Notified of parser errors by AntlrRoutineProcessor. Writes errors to
+ * a designated PrintStream.
  * 
  * @author cbarthauer
  */
-public final class InMemoryParserErrorListener extends BaseErrorListener
-        implements ParserErrorListener {
-    
-    private MumpsRoutine routine;
-    private final List<AntlrError> errors;
+public final class PrintStreamParserErrorListener extends BaseErrorListener 
+    implements ParserErrorListener {
+
+    private PrintStream out;
+    private InMemoryParserErrorListener wrappedListener;
 
     /**
-     * Creates InMemoryParserErrorListener and initializes in-memory
-     * data structure.
+     * Constructs a PrintStreamParserErrorListener which will write parser
+     * errors to the given PrintStream.
+     * 
+     * @param out PrintStream used to log Parser errors.
+     * @param wrappedListener All other method calls delegated to wrapped 
+     *      InMemoryParserErrorListener
      */
-    public InMemoryParserErrorListener() {
-        this.routine = new NullMumpsRoutine();
-        this.errors = new ArrayList<AntlrError>();
+    public PrintStreamParserErrorListener(
+            PrintStream out,
+            InMemoryParserErrorListener wrappedListener) {
+        this.out = out;
+        this.wrappedListener = wrappedListener;
     }
-    
+
     @Override
     public final void syntaxError(
             Recognizer<?, ?> recognizer, 
@@ -56,23 +63,26 @@ public final class InMemoryParserErrorListener extends BaseErrorListener
             int charPositionInLine, 
             String msg, 
             RecognitionException e) {
-        
-        errors.add(
-                new AntlrError(
-                    routine.identifier(),
-                    msg,
-                    line,
-                    charPositionInLine));
-    }
-    
-    @Override
-    public final List<AntlrError> getParserErrors() {
-        return new ArrayList<AntlrError>(errors);
+
+        wrappedListener.syntaxError(
+                recognizer, 
+                offendingSymbol, 
+                line, 
+                charPositionInLine, 
+                msg, 
+                e);
+        List<AntlrError> errors = wrappedListener.getParserErrors();
+        out.println(errors.get(errors.size() - 1));
     }
 
     @Override
-    public void setMumpsRoutine(MumpsRoutine routine) {
-        this.routine = routine;
+    public final List<AntlrError> getParserErrors() {
+        return wrappedListener.getParserErrors();
     }
-    
+
+    @Override
+    public final void setMumpsRoutine(MumpsRoutine routine) {
+        wrappedListener.setMumpsRoutine(routine);
+    }        
 }
+

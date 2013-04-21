@@ -73,7 +73,7 @@ final class SonarMumpsAnalyzerFactory {
         PrintStream out = System.out;
         
         try {
-            out = new PrintStream(new java.io.File("lexer_errors.log"));
+            out = new PrintStream(new java.io.File("lexer_errors.txt"));
         }
         catch(FileNotFoundException e) {
             System.err.println("Unable to create lexer_errors.log; redirecting lexer errors to System.out.");
