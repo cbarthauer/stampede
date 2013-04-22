@@ -21,7 +21,6 @@
  */
 package main;
 
-import listener.AntlrError;
 import antlr.AntlrRoutineProcessorBuilder;
 import analyzer.FileSystemSourceDistribution;
 import listener.InMemoryLexerErrorListener;

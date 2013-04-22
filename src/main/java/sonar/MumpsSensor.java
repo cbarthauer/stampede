@@ -127,7 +127,9 @@ public final class MumpsSensor implements Sensor {
                     project.getKey() + ":" + sonarFile.getKey());
             Violation violation = Violation.create(rule, sonarFile)
                     .setLineId(error.getLine())
-                    .setMessage(error.getMessage());
+                    .setMessage("[line: " + error.getLine() 
+                        + ", column: " + error.getCharPositionInLine() 
+                        + "] " + error.getMessage());
             context.saveViolation(violation);
         }
     }

@@ -22,7 +22,6 @@
 package analyzer;
 
 import antlr.AntlrRoutineProcessorBuilder;
-import listener.AntlrError;
 import listener.MetricListener;
 import listener.LexerErrorListener;
 import listener.InMemoryLexerErrorListener;
