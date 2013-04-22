@@ -21,30 +21,38 @@
  */
 package analyzer;
 
-import java.util.List;
-import java.util.Map;
-
 /**
- * This interface models an object which can process the source code
- * comprising a MUMPS routine.
+ * Represents a syntax error in MUMPS source code.
  * 
  * @author cbarthauer
  */
-public interface RoutineProcessor {
+public interface MumpsSyntaxError {
     /**
-     * Process the given MumpsRoutine.
+     * Get the character position of the error.
      * 
-     * @param routine to process.
-     * @return A data structure containing the results.
+     * @return Numeric value of character position
      */
-    public Map<String, Map<Metric, Integer>> process(MumpsRoutine routine);
+    public int getCharPositionInLine();
     
     /**
-     * Obtain a list of syntax errors which occurred within the processed
-     * MumpsRoutine.
+     * Get the unique identifier for the MUMPS routine
+     * containing this error.
      * 
-     * @return List of syntax errors or an empty list if there were no
-     *   such errors.
+     * @return Unique identifier
      */
-    public List<MumpsSyntaxError> syntaxErrors();
+    public String getIdentifier();
+    
+    /**
+     * Get the line number where the error occurs.
+     * 
+     * @return Numeric value of line number
+     */
+    public int getLine();
+    
+    /**
+     * Get the text of the error message.
+     * 
+     * @return Error message
+     */
+    public String getMessage();
 }

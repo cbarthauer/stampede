@@ -24,7 +24,7 @@ package sonar;
 import analyzer.Metric;
 import analyzer.MetricResult;
 import java.util.List;
-import listener.MumpsSyntaxError;
+import analyzer.MumpsSyntaxError;
 import main.MumpsAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +51,13 @@ public final class MumpsSensor implements Sensor {
     
     private final RuleFinder ruleFinder;
 
+    /**
+     * Create a MumpsSensor configured with the given RuleFinder.
+     * Called by the Sonar dependency injection mechanism.
+     * 
+     * @param ruleFinder for looking up MUMPS code quality rules
+     *   (See /sonar/rules.xml).
+     */
     public MumpsSensor(RuleFinder ruleFinder) {
         this.ruleFinder = ruleFinder;
     }

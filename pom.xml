@@ -91,8 +91,7 @@
                     <failIfMissing>true</failIfMissing>
                     <strictCheck>true</strictCheck>
                     <excludes>
-                        <exclude>lexer_errors.log</exclude>
-                        <exclude>licenseHeader.txt</exclude>
+                        <exclude>*.txt</exclude>
                         <exclude>**/build/**</exclude>
                         <exclude>**/dist/**</exclude>
                         <exclude>**/nbproject/**</exclude>
@@ -101,7 +100,6 @@
                         <exclude>manifest.mf</exclude>
                         <exclude>.gitignore</exclude>
                         <exclude>**/src/main/java/grammar/*.tokens</exclude>
-                        <exclude>COPYING.txt</exclude>
                         <exclude>README.md</exclude>
                     </excludes>
                     <mapping>

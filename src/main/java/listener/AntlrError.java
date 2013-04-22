@@ -21,6 +21,8 @@
  */
 package listener;
 
+import analyzer.MumpsSyntaxError;
+
 /**
  * This class represents a lexer or parser error occurring while processing
  * MUMPS source code. Instances of this class are immutable.

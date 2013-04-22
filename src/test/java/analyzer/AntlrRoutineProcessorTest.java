@@ -28,7 +28,6 @@ import listener.LexerErrorListener;
 import listener.InMemoryLexerErrorListener;
 import java.util.List;
 import listener.InMemoryParserErrorListener;
-import listener.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import static org.hamcrest.Matchers.*;
 import org.jmock.Expectations;

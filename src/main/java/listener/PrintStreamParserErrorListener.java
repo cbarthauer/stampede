@@ -21,6 +21,7 @@
  */
 package listener;
 
+import analyzer.MumpsSyntaxError;
 import analyzer.MumpsRoutine;
 import java.io.PrintStream;
 import java.util.List;

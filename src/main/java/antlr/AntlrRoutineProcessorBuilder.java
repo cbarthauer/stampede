@@ -22,12 +22,11 @@
 package antlr;
 
 import analyzer.MumpsRoutine;
-import listener.AntlrError;
 import listener.MetricListener;
 import listener.LexerErrorListener;
 import java.util.ArrayList;
 import java.util.List;
-import listener.MumpsSyntaxError;
+import analyzer.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 
@@ -42,8 +41,9 @@ public final class AntlrRoutineProcessorBuilder {
     private ParserErrorListener parserErrorListener;
 
     /**
-     * Creates a builder instance with no MetricListeners
-     * and a no-op LexerErrorListener. 
+     * Creates a builder instance with no MetricListeners,
+     * a no-op LexerErrorListener, and a no-op 
+     * ParserErrorListener.
      */
     public AntlrRoutineProcessorBuilder() {
         lexerErrorListener = new NullLexerErrorListener();

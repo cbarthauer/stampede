@@ -21,6 +21,7 @@
  */
 package listener;
 
+import analyzer.MumpsSyntaxError;
 import analyzer.MumpsRoutine;
 import java.util.List;
 import org.antlr.v4.runtime.ANTLRErrorListener;

@@ -63,5 +63,11 @@ public interface MetricStore {
      */
     public void append(Map<String, Map<Metric, Integer>> resultMap);
 
+    /**
+     * Returns the list metric results obtained during analysis.
+     * 
+     * @return List of metric results or an empty list if there
+     *   are no results.
+     */
     public List<MetricResult> metricResults();
 }

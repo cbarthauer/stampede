@@ -41,7 +41,7 @@ import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 import listener.InMemoryParserErrorListener;
-import listener.MumpsSyntaxError;
+import analyzer.MumpsSyntaxError;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
