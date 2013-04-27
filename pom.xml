@@ -30,7 +30,17 @@
             <version>3.4.1</version>
         </dependency>
     
-
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-duplications</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.codehaus.sonar.sslr</groupId>
+            <artifactId>sslr-core</artifactId>
+            <version>1.19</version>
+        </dependency>
     
         <!-- unit tests -->
         <dependency>

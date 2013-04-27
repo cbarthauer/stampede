@@ -38,6 +38,7 @@ public final class MumpsPlugin extends SonarPlugin {
     public final List<?> getExtensions() {
         return Arrays.asList(
                 Mumps.class,
+                MumpsCpdMapping.class,
                 MumpsRuleRepository.class,
                 MumpsSourceImporter.class,
                 MumpsSensor.class);
