@@ -17,7 +17,7 @@ public final class MumpsCpdMapping extends AbstractCpdMapping {
     
     @Override
     public final Tokenizer getTokenizer() {
-        return new MumpsTokenizer();
+        return new AntlrMumpsTokenizer();
     }
 
     @Override
