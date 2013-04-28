@@ -30,6 +30,11 @@ options {
   package grammar;
 }
 
+COMMENT
+//  : SEMICOLON ~[\r\n]* '\r'? '\n'
+  : SEMICOLON ~[\r\n]*
+  ;
+
 //Characters which are part of the character set 
 //but are not specified elsewhere in the grammar.
 CHAR
@@ -197,10 +202,6 @@ command
   | cmdWrite
   | cmdXecute
   | cmdUnknown
-  ;
-  
-comment
-  : SEMICOLON (~NEWLINE)*
   ; 
       
 identifier
@@ -225,9 +226,9 @@ identifier
   ;
     
 levelLine
-  : identifier (SPACE+ PERIOD (SPACE* PERIOD)*)? (SPACE* command)* (SPACE* comment)? SPACE* NEWLINE
-  | (SPACE+ command)* (SPACE+ comment)? SPACE* NEWLINE
-  | SPACE+ PERIOD (SPACE* PERIOD)* (SPACE* command)* (SPACE* comment)? SPACE* NEWLINE
+  : identifier (SPACE+ PERIOD (SPACE* PERIOD)*)? (SPACE* command)* (SPACE* COMMENT)? SPACE* NEWLINE
+  | (SPACE+ command)* (SPACE+ COMMENT)? SPACE* NEWLINE
+  | SPACE+ PERIOD (SPACE* PERIOD)* (SPACE* command)* (SPACE* COMMENT)? SPACE* NEWLINE
   ;
   
 postCondition
