@@ -22,10 +22,12 @@
 package analyzer;
 
 import antlr.AntlrRoutineProcessorBuilder;
+import grammar.MParser;
 import listener.MetricListener;
 import listener.LexerErrorListener;
 import listener.InMemoryLexerErrorListener;
 import java.util.List;
+import listener.AntlrMetricListener;
 import listener.InMemoryParserErrorListener;
 import listener.ParserErrorListener;
 import static org.hamcrest.Matchers.*;
@@ -42,17 +44,17 @@ public class AntlrRoutineProcessorTest {
     @Test
     public void mockCountLines() {
         final MumpsRoutine routine = context.mock(MumpsRoutine.class);
-        final MetricListener listener = context.mock(MetricListener.class);
+        final AntlrMetricListener listener = context.mock(AntlrMetricListener.class);
         
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
-        final RoutineProcessor processor = builder.setMetricListeners(listener)
+        final RoutineProcessor processor = builder.setAntlrMetricListeners(listener)
                 .build();
         
         context.checking(new Expectations() {{
             oneOf(routine).asString();
             will(returnValue("HELLO ; This is a comment.\n"));
-            oneOf(listener).asMListener();
+            oneOf(listener).enterLevelLine(with(aNonNull(MParser.LevelLineContext.class)));
             oneOf(listener).getMetric();
             will(returnValue(Metric.LOC));
             oneOf(listener).getValue();

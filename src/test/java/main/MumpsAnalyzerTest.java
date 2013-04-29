@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 import listener.InMemoryParserErrorListener;
 import analyzer.MumpsSyntaxError;
+import listener.AntlrMetricListener;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
@@ -91,10 +92,10 @@ public class MumpsAnalyzerTest {
         final File inputFile = new File(MUMPS_FILE_PATH);
         final SourceDistribution distribution = 
                 new FileSystemSourceDistribution(inputFile);
-        final MetricListener listener = new LineCountListener();
+        final AntlrMetricListener listener = new LineCountListener();
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
-        final RoutineProcessor processor = builder.setMetricListeners(listener)
+        final RoutineProcessor processor = builder.setAntlrMetricListeners(listener)
                 .build();
         final MetricStore store = new InMemoryMetricStore();
         
@@ -112,10 +113,10 @@ public class MumpsAnalyzerTest {
         final File inputFile = new File(VISTA_ACCOUNTS_RECEIVABLE_PATH);
         final SourceDistribution distribution = 
                 new FileSystemSourceDistribution(inputFile);
-        final MetricListener listener = new LineCountListener();
+        final AntlrMetricListener listener = new LineCountListener();
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
-        final RoutineProcessor processor = builder.setMetricListeners(listener)
+        final RoutineProcessor processor = builder.setAntlrMetricListeners(listener)
                 .build();
         MetricStore store = new InMemoryMetricStore();
         

@@ -27,6 +27,7 @@ import listener.LexerErrorListener;
 import java.util.ArrayList;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
+import listener.AntlrMetricListener;
 import listener.ParserErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 
@@ -37,7 +38,7 @@ import org.antlr.v4.runtime.BaseErrorListener;
  */
 public final class AntlrRoutineProcessorBuilder {
     private LexerErrorListener lexerErrorListener;
-    private MetricListener[] metricListeners;
+    private AntlrMetricListener[] metricListeners;
     private ParserErrorListener parserErrorListener;
 
     /**
@@ -47,7 +48,7 @@ public final class AntlrRoutineProcessorBuilder {
      */
     public AntlrRoutineProcessorBuilder() {
         lexerErrorListener = new NullLexerErrorListener();
-        metricListeners = new MetricListener[]{};
+        metricListeners = new AntlrMetricListener[]{};
         parserErrorListener = new NullParserErrorListener();
     }
     
@@ -84,8 +85,8 @@ public final class AntlrRoutineProcessorBuilder {
      * @param metricListeners to register
      * @return This builder
      */
-    public final AntlrRoutineProcessorBuilder setMetricListeners(
-            MetricListener... metricListeners) {
+    public final AntlrRoutineProcessorBuilder setAntlrMetricListeners(
+            AntlrMetricListener... metricListeners) {
         this.metricListeners = metricListeners;
         return this;
     }

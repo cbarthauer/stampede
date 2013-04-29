@@ -34,15 +34,7 @@ import grammar.MListener;
  * @see analyzer.AntlrRoutineProcessor
  * @author cbarthauer
  */
-public interface MetricListener {
-    /**
-     * Returns an MListener view of this object which can
-     * receive ANTLR parser events.
-     * 
-     * @return An MListener object.
-     */
-    public MListener asMListener();
-    
+public interface MetricListener {    
     /**
      * Get the Metric this MetricListener calculates.
      * 

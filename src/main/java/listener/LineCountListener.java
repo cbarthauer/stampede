@@ -23,7 +23,6 @@ package listener;
 
 import analyzer.Metric;
 import grammar.MBaseListener;
-import grammar.MListener;
 import grammar.MParser;
 
 /**
@@ -31,7 +30,10 @@ import grammar.MParser;
  * 
  * @author cbarthauer
  */
-public final class LineCountListener implements MetricListener {
+public final class LineCountListener 
+        extends MBaseListener 
+        implements AntlrMetricListener {
+    
     private int lineCount;
 
     /**
@@ -42,13 +44,8 @@ public final class LineCountListener implements MetricListener {
     }
     
     @Override
-    public final MListener asMListener() {
-        return new MBaseListener() {
-            @Override
-            public final void enterLevelLine(MParser.LevelLineContext ctx) { 
-                lineCount++;
-            }
-        };
+    public final void enterLevelLine(MParser.LevelLineContext ctx) { 
+        lineCount++;
     }
     
     @Override

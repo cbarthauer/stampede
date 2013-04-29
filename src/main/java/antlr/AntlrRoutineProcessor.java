@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import analyzer.MumpsSyntaxError;
+import listener.AntlrMetricListener;
 import listener.ParserErrorListener;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -45,7 +46,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 public final class AntlrRoutineProcessor implements RoutineProcessor {
 
-    private final List<MetricListener> metricListeners;
+    private final List<AntlrMetricListener> metricListeners;
     private final LexerErrorListener lexerErrorListener;
     private final ParserErrorListener parserErrorListener;
     
@@ -62,7 +63,7 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
     AntlrRoutineProcessor(
             LexerErrorListener lexerErrorListener, 
             ParserErrorListener parserErrorListener,
-            MetricListener... metricListeners) {
+            AntlrMetricListener... metricListeners) {
         
         this.parserErrorListener = parserErrorListener;
         this.lexerErrorListener = lexerErrorListener;
@@ -80,8 +81,8 @@ public final class AntlrRoutineProcessor implements RoutineProcessor {
         parserErrorListener.setMumpsRoutine(routine);
         parser.addErrorListener(parserErrorListener);
         
-        for(MetricListener listener : metricListeners) {
-            parser.addParseListener(listener.asMListener());
+        for(AntlrMetricListener listener : metricListeners) {
+            parser.addParseListener(listener);
         }
         
         parser.routine();
