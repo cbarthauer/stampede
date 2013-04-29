@@ -26,7 +26,7 @@ Technical Details
 1. MumpsAnalyzer uses [ANTLR 4](http://www.antlr.org) to parse MUMPS code. The ANTLR grammar 
 file is available in the grammar folder: grammar/M.g4. The grammar is incomplete; it only 
 includes enough detail to support the proof-of-concept functionality.
-2. To add a new metric, implement analyzer.MetricListener.
+2. To add a new metric, implement listener.MetricListener.
 3. To add a new tool for parsing (or simply processing) MUMPS code, implement analyzer.RoutineProcessor.
 4. To add metric results from other tools (e.g., XINDEX, etc.), implement analyzer.MetricStore.
 5. MumpsAnalyzer is developed according to the 
