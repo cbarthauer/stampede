@@ -22,49 +22,31 @@
 package analyzer;
 
 import antlr.AntlrRoutineProcessorBuilder;
-import grammar.MParser;
-import listener.MetricListener;
 import listener.LexerErrorListener;
 import listener.InMemoryLexerErrorListener;
 import java.util.List;
+import java.util.Map;
 import listener.AntlrMetricListener;
 import listener.InMemoryParserErrorListener;
+import listener.LineCountListener;
 import listener.ParserErrorListener;
 import static org.hamcrest.Matchers.*;
-import org.jmock.Expectations;
-import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Test;
-import org.junit.Rule;
 import static org.junit.Assert.*;
 
 public class AntlrRoutineProcessorTest {
-    @Rule
-    public JUnitRuleMockery context = new JUnitRuleMockery();
-    
     @Test
-    public void mockCountLines() {
-        final MumpsRoutine routine = context.mock(MumpsRoutine.class);
-        final AntlrMetricListener listener = context.mock(AntlrMetricListener.class);
-        
+    public void shouldCountLines() {
+        final MumpsRoutine routine = new StringBasedMumpsRoutine(
+                "HELLO.m", 
+                "HELLO ; This is a comment.\n");
+        final AntlrMetricListener listener = new LineCountListener();        
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
         final RoutineProcessor processor = builder.setAntlrMetricListeners(listener)
                 .build();
-        
-        context.checking(new Expectations() {{
-            oneOf(routine).asString();
-            will(returnValue("HELLO ; This is a comment.\n"));
-            oneOf(listener).enterLevelLine(with(aNonNull(MParser.LevelLineContext.class)));
-            oneOf(listener).getMetric();
-            will(returnValue(Metric.LOC));
-            oneOf(listener).getValue();
-            will(returnValue(1));
-            oneOf(routine).identifier();
-            will(returnValue("HELLO.m"));
-            oneOf(listener).reset();
-        }});
-        
-        processor.process(routine);
+        Map<String, Map<Metric, Integer>> result = processor.process(routine);
+        assertThat(result.get("HELLO.m").get(Metric.LOC), equalTo(1));
     }
     
     @Test
