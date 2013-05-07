@@ -25,6 +25,7 @@ import analyzer.FileBasedMumpsRoutineTest;
 import analyzer.FileSystemSourceDistributionTest;
 import analyzer.InMemoryMetricStoreTest;
 import listener.LineCountListenerTest;
+import listener.NonCommentLineCounterTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -39,6 +40,7 @@ import sonar.SonarMumpsAnalyzerFactoryTest;
     FileSystemSourceDistributionTest.class,
     InMemoryMetricStoreTest.class,
     LineCountListenerTest.class,
+    NonCommentLineCounterTest.class,
     MumpsCpdMappingTest.class,
     SonarMumpsAnalyzerFactoryTest.class
 })

@@ -25,7 +25,6 @@ import antlr.AntlrRoutineProcessorBuilder;
 import listener.InMemoryLexerErrorListener;
 import analyzer.InMemoryMetricStore;
 import listener.LexerErrorListener;
-import listener.MetricListener;
 import analyzer.MetricStore;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
@@ -35,6 +34,7 @@ import java.util.List;
 import listener.AntlrMetricListener;
 import listener.InMemoryParserErrorListener;
 import listener.LineCountListener;
+import listener.NonCommentLineCounter;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
@@ -61,13 +61,19 @@ final class SonarMumpsAnalyzerFactory {
      * @return A properly initialized MumpsAnalyzer.
      */
     static MumpsAnalyzer getMumpsAnalyzer(List<InputFile> inputFiles) {
-        final SourceDistribution distribution = new SonarSourceDistribution(inputFiles);
-        final AntlrMetricListener metricListener = new LineCountListener();
+        final SourceDistribution distribution = 
+                new SonarSourceDistribution(inputFiles);
+        final AntlrMetricListener lineCounter = new LineCountListener();
+        final AntlrMetricListener nonCommentLineCounter = 
+                new NonCommentLineCounter();
         final LexerErrorListener lexerListener = getLexerErrorListener();
         final ParserErrorListener parserListener = getParserErrorListener();
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
-        final RoutineProcessor processor = builder.setAntlrMetricListeners(metricListener)
+        final RoutineProcessor processor = 
+            builder.setAntlrMetricListeners(
+                    lineCounter,
+                    nonCommentLineCounter)
                 .setLexerErrorListener(lexerListener)
                 .setParserErrorListener(parserListener)
                 .build();

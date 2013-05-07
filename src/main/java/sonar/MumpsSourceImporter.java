@@ -21,7 +21,12 @@
  */
 package sonar;
 
+import java.io.File;
+import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.AbstractSourceImporter;
+import org.sonar.api.resources.Resource;
 
 /**
  * This class handles importing MUMPS source code into Sonar.
@@ -29,7 +34,8 @@ import org.sonar.api.batch.AbstractSourceImporter;
  * @author cbarthauer
  */
 public final class MumpsSourceImporter extends AbstractSourceImporter {
-
+    private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
+    
     /**
      * Creates a MumpsSourceImporter object. Called by the Sonar
      * framework.
@@ -40,4 +46,12 @@ public final class MumpsSourceImporter extends AbstractSourceImporter {
     public MumpsSourceImporter(Mumps mumps) {
         super(mumps);
     }
+
+    @Override
+    protected Resource createResource(File file, List<File> sourceDirs, boolean unitTest) {
+        LOG.info("Importing: " + file.getAbsolutePath());
+        return super.createResource(file, sourceDirs, unitTest);
+    }
+    
+    
 }

@@ -109,24 +109,4 @@ public class AntlrRoutineProcessorTest {
                 errors.get(0).getIdentifier(),
                 equalTo("HELLO"));
     }
-    
-    private final class StringBasedMumpsRoutine implements MumpsRoutine {
-        private final String identifier;
-        private final String source;
-
-        private StringBasedMumpsRoutine(String identifier, String source) {
-            this.identifier = identifier;
-            this.source = source;
-        }        
-        
-        @Override
-        public final String asString() {
-            return source;
-        }
-
-        @Override
-        public final String identifier() {
-            return identifier;
-        }        
-    }
 }

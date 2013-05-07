@@ -29,7 +29,12 @@ package analyzer;
  */
 public enum Metric {
     /**
-     * Lines of code.
+     * Physical lines.
      */
-    LOC;
+    LOC,
+    
+    /**
+     * Non-comment lines of code.
+     */
+    NCLOC;
 }

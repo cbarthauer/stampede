@@ -109,6 +109,10 @@ public final class MumpsSensor implements Sensor {
                     sonarFile,
                     CoreMetrics.LINES,
                     result.getDouble(Metric.LOC));
+            context.saveMeasure(
+                    sonarFile,
+                    CoreMetrics.NCLOC,
+                    result.getDouble(Metric.NCLOC));
         }
     }
 

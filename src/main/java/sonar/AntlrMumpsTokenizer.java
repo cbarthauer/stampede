@@ -31,6 +31,8 @@ import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class tokenizes MUMPS source code for Sonar's
@@ -40,8 +42,11 @@ import org.antlr.v4.runtime.Token;
  * @author cbarthauer
  */
 public final class AntlrMumpsTokenizer implements Tokenizer {
+    private static final Logger LOG = LoggerFactory.getLogger(AntlrMumpsTokenizer.class);
+    
     @Override
     public void tokenize(SourceCode source, Tokens pmdTokens) throws IOException {
+        LOG.info("Tokenizing file: " + source.getFileName());
         String fileName = source.getFileName();
         ANTLRInputStream input = new ANTLRFileStream(fileName);
         MLexer lexer = new MLexer(input);

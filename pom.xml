@@ -27,13 +27,13 @@
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-plugin-api</artifactId>
-            <version>3.4.1</version>
+            <version>3.3.1</version>
         </dependency>
     
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-duplications</artifactId>
-            <version>3.4.1</version>
+            <version>3.3.1</version>
         </dependency>
         
         <dependency>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.codehaus.sonar</groupId>
             <artifactId>sonar-testing-harness</artifactId>
-            <version>3.4.1</version>
+            <version>3.3.1</version>
             <scope>test</scope>
         </dependency>
         
