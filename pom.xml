@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>mumps</groupId>
-    <artifactId>MumpsAnalyzer</artifactId>
+    <artifactId>stampede</artifactId>
     <packaging>sonar-plugin</packaging>
     <version>0.0.1-SNAPSHOT</version>
-    <name>MUMPS Analyzer</name>
+    <name>STAMPEDE</name>
     <description>
-        Static analysis framework and Sonar integration for the MUMPS programming language.
+        STatic Analysis for M Programming in Enterprise Development Environments
     </description>
   
     <properties>
@@ -118,7 +118,7 @@
                     <properties>
                         <year>2013</year>
                         <name>Chris Barthauer</name>
-                        <email>mumpsanalyzer@gmail.com</email>
+                        <email>mumpsstampede@gmail.com</email>
                     </properties>
                 </configuration>
                 <executions>
