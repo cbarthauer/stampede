@@ -25,7 +25,7 @@ import analyzer.Metric;
 import analyzer.MetricResult;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
-import main.MumpsAnalyzer;
+import main.StampedeAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
@@ -80,7 +80,7 @@ public final class MumpsSensor implements Sensor {
 
     private void analyseModule(Project project, SensorContext context) {
         List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
-        MumpsAnalyzer analyzer = 
+        StampedeAnalyzer analyzer = 
                 SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
         analyzer.analyze();
         

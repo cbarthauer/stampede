@@ -19,7 +19,7 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-import main.MumpsAnalyzerTest;
+import main.StampedeAnalyzerTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -28,6 +28,6 @@ import sonar.LocTest;
 @RunWith(Suite.class)
 @SuiteClasses({
     LocTest.class,
-    MumpsAnalyzerTest.class
+    StampedeAnalyzerTest.class
 })
 public class AcceptanceTestSuite {}

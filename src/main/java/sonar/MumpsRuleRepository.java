@@ -51,7 +51,7 @@ public final class MumpsRuleRepository extends RuleRepository {
      */
     public MumpsRuleRepository(XMLRuleParser ruleParser) {
         super(KEY, Mumps.KEY);
-        setName("MumpsAnalyzer");
+        setName("STAMPEDE");
         this.ruleParser = ruleParser;
     }
     

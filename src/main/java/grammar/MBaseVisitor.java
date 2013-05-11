@@ -19,7 +19,7 @@
  * Contributors:
  *     Chris Barthauer - Initial API and implementation.
  */
-// Generated from D:\netbeans_projects\MumpsAnalyzer\src\main\java\grammar\M.g4 by ANTLR 4.0
+// Generated from D:\netbeans_projects\stampede\src\main\java\grammar\M.g4 by ANTLR 4.0
 
   package grammar;
 

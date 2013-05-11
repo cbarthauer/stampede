@@ -26,7 +26,7 @@ import org.sonar.api.batch.AbstractCpdMapping;
 import org.sonar.api.resources.Language;
 
 /**
- * This class integrates MumpsAnalyzer with Sonar's
+ * This class integrates STAMPEDE with Sonar's
  * copy-paste detection (i.e., CPD) mechanism.
  * @author cbarthauer
  */

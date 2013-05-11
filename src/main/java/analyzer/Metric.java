@@ -22,7 +22,7 @@
 package analyzer;
 
 /**
- * Enumerates the specific Metrics which MumpsAnalyzer
+ * Enumerates the specific Metrics which STAMPEDE
  * calculates.
  * 
  * @author cbarthauer

@@ -36,13 +36,13 @@ import listener.InMemoryParserErrorListener;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
-import main.MumpsAnalyzer;
+import main.StampedeAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.resources.InputFile;
 
 /**
- * A factory for creating MumpsAnalyzer objects suitable for use within
+ * A factory for creating StampedeAnalyzer objects suitable for use within
  * the Sonar MumpsSensor class.
  * 
  * @author cbarthauer
@@ -52,13 +52,13 @@ final class SonarMumpsAnalyzerFactory {
     private static final Logger LOG = LoggerFactory.getLogger(SonarMumpsAnalyzerFactory.class);
     
     /**
-     * Creates a MumpsAnalyzer for the give inputFiles. The MumpsAnalyzer
+     * Creates a StampedeAnalyzer for the give inputFiles. The StampedeAnalyzer
      * is suitable for use within the Sonar MumpsSensor.
      * 
      * @param inputFiles List of MUMPS source files from Sonar.
-     * @return A properly initialized MumpsAnalyzer.
+     * @return A properly initialized StampedeAnalyzer.
      */
-    static MumpsAnalyzer getMumpsAnalyzer(List<InputFile> inputFiles) {
+    static StampedeAnalyzer getMumpsAnalyzer(List<InputFile> inputFiles) {
         final SourceDistribution distribution = 
                 new SonarSourceDistribution(inputFiles);
         final LexerErrorListener lexerListener = getLexerErrorListener();
@@ -71,7 +71,7 @@ final class SonarMumpsAnalyzerFactory {
                 .setParserErrorListener(parserListener)
                 .build();
         MetricStore store = new InMemoryMetricStore();
-        MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution,
                 processor,
                 store);

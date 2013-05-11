@@ -41,13 +41,13 @@ import analyzer.MumpsSyntaxError;
  * 
  * @author cbarthauer
  */
-public final class MumpsAnalyzer {
+public final class StampedeAnalyzer {
     private final SourceDistribution distribution;
     private final RoutineProcessor processor;
     private final MetricStore store;
 
     /**
-     * Creates a new MumpsAnalyzer. All parameters are required
+     * Creates a new StampedeAnalyzer. All parameters are required
      * and are assumed to be properly initialized.
      * 
      * @param distribution The collection of MUMPS routines
@@ -59,7 +59,7 @@ public final class MumpsAnalyzer {
      * @param store The repository where the results are
      * stored.
      */
-    public MumpsAnalyzer(
+    public StampedeAnalyzer(
             SourceDistribution distribution, 
             RoutineProcessor processor, 
             MetricStore store) {

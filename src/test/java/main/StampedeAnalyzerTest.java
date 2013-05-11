@@ -27,7 +27,6 @@ import listener.InMemoryLexerErrorListener;
 import analyzer.InMemoryMetricStore;
 import listener.LexerErrorListener;
 import analyzer.Metric;
-import listener.MetricListener;
 import analyzer.MetricResult;
 import analyzer.MetricStore;
 import analyzer.MumpsRoutine;
@@ -52,7 +51,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
 
-public class MumpsAnalyzerTest { 
+public class StampedeAnalyzerTest { 
     private final String MUMPS_FILE_PATH 
             = "D:\\mspace\\VistA-FOIA\\Packages\\Toolkit\\Routines\\XINDEX.m";
     private final String VISTA_ACCOUNTS_RECEIVABLE_PATH
@@ -71,7 +70,7 @@ public class MumpsAnalyzerTest {
         final RoutineProcessor processor = context.mock(RoutineProcessor.class);
         final MetricStore store = context.mock(MetricStore.class);
         
-        MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution,
                 processor,
                 store);
@@ -99,7 +98,7 @@ public class MumpsAnalyzerTest {
                 .build();
         final MetricStore store = new InMemoryMetricStore();
         
-        MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution, 
                 processor, 
                 store);
@@ -120,7 +119,7 @@ public class MumpsAnalyzerTest {
                 .build();
         MetricStore store = new InMemoryMetricStore();
         
-        MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution, 
                 processor, 
                 store);
@@ -153,7 +152,7 @@ public class MumpsAnalyzerTest {
                 builder.setLexerErrorListener(errorListener)
                     .build();
         final MetricStore store = new InMemoryMetricStore();
-        final MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        final StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution,
                 processor,
                 store);
@@ -179,7 +178,7 @@ public class MumpsAnalyzerTest {
                 builder.setParserErrorListener(errorListener)
                     .build();
         final MetricStore store = new InMemoryMetricStore();
-        final MumpsAnalyzer analyzer = new MumpsAnalyzer(
+        final StampedeAnalyzer analyzer = new StampedeAnalyzer(
                 distribution,
                 processor,
                 store);

@@ -27,7 +27,7 @@ package sonar;
 
 import analyzer.MetricStore;
 import java.util.ArrayList;
-import main.MumpsAnalyzer;
+import main.StampedeAnalyzer;
 import static org.hamcrest.Matchers.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -41,7 +41,7 @@ public class SonarMumpsAnalyzerFactoryTest {
     
     @Test
     public void shouldProcessEmptyListOfInputFiles() {
-        MumpsAnalyzer analyzer = 
+        StampedeAnalyzer analyzer = 
                 SonarMumpsAnalyzerFactory.getMumpsAnalyzer(
                     new ArrayList<InputFile>());
         analyzer.analyze();

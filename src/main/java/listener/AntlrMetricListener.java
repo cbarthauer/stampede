@@ -25,7 +25,7 @@ import grammar.MListener;
 
 /**
  * Classes implementing this interface may play both the role of
- * MetricListener in the MumpsAnalyzer framework and the role of
+ * MetricListener in the STAMPEDE framework and the role of
  * MListener in the ANTLR framework.
  * 
  * @author cbarthauer
