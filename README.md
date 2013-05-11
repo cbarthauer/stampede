@@ -11,7 +11,9 @@ progress, please take a look at the
 
 Demo
 ----
-To view a live demo of this tool, visit http://mumpsanalyzer-cbarthauer.rhcloud.com/.
+To view a live demo of this tool, visit http://mumpsanalyzer-cbarthauer.rhcloud.com/. Please note
+that the live demo is maintained on an as-needed basis. If it isn't working when you need it,
+please send an email to mumpsanalyzer@gmail.com.
 
 Additionally, the demo folder contains a fully-functional Sonar distribution with MumpsAnalyzer 
 installed. The demo includes MUMPS code from both the [FLAP Fileman Project] 
