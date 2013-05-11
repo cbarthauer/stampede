@@ -1,5 +1,5 @@
-STAMPEDE - STatic Analysis for M Programming in Enterprise Development Environments
-===================================================================================
+STAMPEDE
+========
 STAMPEDE is a static analysis framework for the M programming language. It
 analyzes M source code and calculates code quality metrics. In addition, it 
 provides a plugin for displaying the results using the [Sonar](http://www.sonarsource.org)
@@ -13,7 +13,7 @@ Demo
 ----
 To view a live demo of this tool, visit http://stampede-cbarthauer.rhcloud.com/. Please note
 that the live demo is maintained on an as-needed basis. If it isn't working when you need it,
-please send an email to stampede@gmail.com.
+please send an email to mumpsstampede@gmail.com.
 
 Additionally, the demo folder contains a fully-functional Sonar distribution with STAMPEDE 
 installed. The demo includes M code from both the [FLAP Fileman Project] 
