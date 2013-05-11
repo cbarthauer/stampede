@@ -28,13 +28,11 @@ import listener.LexerErrorListener;
 import analyzer.MetricStore;
 import analyzer.RoutineProcessor;
 import analyzer.SourceDistribution;
+import antlr.AntlrMetricListenerFactory;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.List;
-import listener.AntlrMetricListener;
 import listener.InMemoryParserErrorListener;
-import listener.LineCountListener;
-import listener.NonCommentLineCounter;
 import listener.ParserErrorListener;
 import listener.PrintStreamLexerErrorListener;
 import listener.PrintStreamParserErrorListener;
@@ -63,17 +61,12 @@ final class SonarMumpsAnalyzerFactory {
     static MumpsAnalyzer getMumpsAnalyzer(List<InputFile> inputFiles) {
         final SourceDistribution distribution = 
                 new SonarSourceDistribution(inputFiles);
-        final AntlrMetricListener lineCounter = new LineCountListener();
-        final AntlrMetricListener nonCommentLineCounter = 
-                new NonCommentLineCounter();
         final LexerErrorListener lexerListener = getLexerErrorListener();
         final ParserErrorListener parserListener = getParserErrorListener();
         final AntlrRoutineProcessorBuilder builder = 
                 new AntlrRoutineProcessorBuilder();
         final RoutineProcessor processor = 
-            builder.setAntlrMetricListeners(
-                    lineCounter,
-                    nonCommentLineCounter)
+            builder.setAntlrMetricListeners(AntlrMetricListenerFactory.allListeners())
                 .setLexerErrorListener(lexerListener)
                 .setParserErrorListener(parserListener)
                 .build();

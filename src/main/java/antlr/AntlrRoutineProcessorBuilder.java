@@ -22,7 +22,6 @@
 package antlr;
 
 import analyzer.MumpsRoutine;
-import listener.MetricListener;
 import listener.LexerErrorListener;
 import java.util.ArrayList;
 import java.util.List;

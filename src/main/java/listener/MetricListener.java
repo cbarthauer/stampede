@@ -22,7 +22,6 @@
 package listener;
 
 import analyzer.Metric;
-import grammar.MListener;
 
 /**
  * This interface models an object which can receive
