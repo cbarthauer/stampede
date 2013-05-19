@@ -58,6 +58,8 @@ public final class MumpsSensor implements Sensor {
      * 
      * @param ruleFinder for looking up MUMPS code quality rules
      *   (See /sonar/rules.xml).
+     * @param sonarMetricMap contains mappings between STAMPEDE metrics
+     *   and Sonar metrics.
      */
     public MumpsSensor(RuleFinder ruleFinder, SonarMetricMap sonarMetricMap) {
         this.sonarMetricMap = sonarMetricMap;

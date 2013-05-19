@@ -28,7 +28,7 @@ package analyzer;
  * @author cbarthauer
  */
 public enum Metric {
-    /*
+    /**
      * Number of lines containing only a comment. May optionally include
      * block level indicator(s).
      */

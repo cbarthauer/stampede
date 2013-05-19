@@ -8,7 +8,8 @@ import grammar.MParser.EntryLabelContext;
 import grammar.MParser.LevelLineContext;
 
 /**
- *
+ * This class counts comment-only lines for MUMPS routines.
+ * 
  * @author cbarthauer
  */
 public final class CommentLineCounter
@@ -18,7 +19,10 @@ public final class CommentLineCounter
     private int commentLineCount;
     private boolean hasComment;
     private boolean hasCommentOnly;
-    
+   
+    /**
+     * Create CommentLineCounter with initial line count of zero.
+     */
     public CommentLineCounter() {
         commentLineCount = 0;
         initializeFlags();

@@ -11,7 +11,11 @@ import org.sonar.api.BatchExtension;
 import org.sonar.api.measures.CoreMetrics;
 
 /**
- *
+ * This class maps STAMPEDE metrics to equivalent
+ * Sonar metrics. This class uses "code as
+ * configuration"; hard-code new metric mappings 
+ * in this class's constructor (and nowhere else).
+ * 
  * @author cbarthauer
  */
 public final class SonarMetricMap 
@@ -20,6 +24,10 @@ public final class SonarMetricMap
     
     private final HashMap<Metric, org.sonar.api.measures.Metric> sonarMetricMap;
     
+    /**
+     * Create a new SonarMetricMap initialized with the 
+     * proper mappings.
+     */
     public SonarMetricMap() {
         sonarMetricMap = new HashMap<Metric, org.sonar.api.measures.Metric>();
         sonarMetricMap.put(Metric.LOC, CoreMetrics.LINES);
