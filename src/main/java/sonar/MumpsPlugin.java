@@ -41,6 +41,7 @@ public final class MumpsPlugin extends SonarPlugin {
                 MumpsCpdMapping.class,
                 MumpsRuleRepository.class,
                 MumpsSourceImporter.class,
-                MumpsSensor.class);
+                MumpsSensor.class,
+                SonarMetricMap.class);
     }
 }

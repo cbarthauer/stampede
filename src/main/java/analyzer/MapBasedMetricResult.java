@@ -23,6 +23,7 @@ package analyzer;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 class MapBasedMetricResult implements MetricResult {
     private final String id;
@@ -41,13 +42,18 @@ class MapBasedMetricResult implements MetricResult {
     }
 
     @Override
-    public double getDouble(Metric metric) {
+    public final double getDouble(Metric metric) {
         return metricMap.get(metric);
     }
 
     @Override
-    public String getPath() {
+    public final String getPath() {
         return id;
+    }
+
+    @Override
+    public final Set<Metric> getSupportedMetrics() {
+        return metricMap.keySet();
     }
     
 }

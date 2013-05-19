@@ -25,12 +25,12 @@ import analyzer.Metric;
 import analyzer.MetricResult;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
+import java.util.Map;
 import main.StampedeAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.measures.CoreMetrics;
 import org.sonar.api.resources.File;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
@@ -49,6 +49,7 @@ public final class MumpsSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
     
+    private final Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap;    
     private final RuleFinder ruleFinder;
 
     /**
@@ -58,7 +59,8 @@ public final class MumpsSensor implements Sensor {
      * @param ruleFinder for looking up MUMPS code quality rules
      *   (See /sonar/rules.xml).
      */
-    public MumpsSensor(RuleFinder ruleFinder) {
+    public MumpsSensor(RuleFinder ruleFinder, SonarMetricMap sonarMetricMap) {
+        this.sonarMetricMap = sonarMetricMap;
         this.ruleFinder = ruleFinder;
     }
     
@@ -86,6 +88,10 @@ public final class MumpsSensor implements Sensor {
         
         saveMetricResults(project, context, analyzer.metricResults());
         saveSyntaxErrors(project, context, analyzer.syntaxErrors());
+        savePhysicalLinesAggregateViolations(
+                project, 
+                context, 
+                analyzer.metricResults());
     }
 
     private void analyseProject(Project project, SensorContext context) {
@@ -96,7 +102,7 @@ public final class MumpsSensor implements Sensor {
             Project project, 
             SensorContext context, 
             List<MetricResult> metricResults) {
-        
+
         for (MetricResult result : metricResults) {
             File sonarFile = File.fromIOFile(
                     new java.io.File(result.getPath()),
@@ -104,15 +110,13 @@ public final class MumpsSensor implements Sensor {
 
             sonarFile.setEffectiveKey(
                     project.getKey() + ":" + sonarFile.getKey());
-
-            context.saveMeasure(
-                    sonarFile,
-                    CoreMetrics.LINES,
-                    result.getDouble(Metric.LOC));
-            context.saveMeasure(
-                    sonarFile,
-                    CoreMetrics.NCLOC,
-                    result.getDouble(Metric.NCLOC));
+            
+            for(Metric metric : result.getSupportedMetrics()) {
+                context.saveMeasure(
+                        sonarFile,
+                        sonarMetricMap.get(metric),
+                        result.getDouble(metric));
+            }
         }
     }
 
@@ -135,6 +139,34 @@ public final class MumpsSensor implements Sensor {
                         + ", column: " + error.getCharPositionInLine() 
                         + "] " + error.getMessage());
             context.saveViolation(violation);
+        }
+    }
+
+    private void savePhysicalLinesAggregateViolations(
+            Project project, 
+            SensorContext context, 
+            List<MetricResult> metricResults) {
+        
+        Rule rule = ruleFinder.findByKey(
+                MumpsRuleRepository.KEY, 
+                "physicalLinesAggregate");
+        
+        for(MetricResult result : metricResults) {
+            double lines = result.getDouble(Metric.LOC);
+            double ncloc = result.getDouble(Metric.NCLOC);
+            double commentLines = result.getDouble(Metric.COMMENT_LINES);
+            
+            if(!(lines == ncloc + commentLines)) {
+                File sonarFile = File.fromIOFile(
+                        new java.io.File(result.getPath()),
+                        project);
+                sonarFile.setEffectiveKey(
+                        project.getKey() + ":" + sonarFile.getKey());
+                Violation violation = Violation.create(rule, sonarFile)
+                    .setLineId(1)
+                    .setMessage(rule.getDescription());
+                context.saveViolation(violation);
+            }
         }
     }
 }

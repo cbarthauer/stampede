@@ -21,6 +21,8 @@
  */
 package analyzer;
 
+import java.util.Set;
+
 /**
  * This interface models a set of Metric results for a
  * MUMPS source code file located at a particular path
@@ -45,4 +47,12 @@ public interface MetricResult {
      * file path.
      */
     public String getPath();
+
+    /**
+     * Return all metrics supported by this MetricResult.
+     * 
+     * @return List<Metric> containing all supported
+     * metrics.
+     */
+    public Set<Metric> getSupportedMetrics();
 }

@@ -25,18 +25,31 @@ import analyzer.Metric;
 import analyzer.MumpsRoutine;
 import analyzer.RoutineProcessor;
 import analyzer.StringBasedMumpsRoutine;
-import antlr.AntlrRoutineProcessorBuilder;
 import java.util.Map;
 import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
+import static analyzer.AntlrRoutineProcessorFactory.*;
+import org.junit.Before;
 
-/**
- *
- * @author cbarthauer
- */
 public final class NonCommentLineCounterTest {
 
+    private RoutineProcessor processor;
+    
+    @Before
+    public void setup() {
+        processor = getRoutineProcessor(new NonCommentLineCounter());
+    }
+    
+    @Test
+    public void shouldCountBlockLevelOnlyLines() {
+        final MumpsRoutine routine = new StringBasedMumpsRoutine(
+                "HELLO.m",
+                " .");
+        final Map<String, Map<Metric, Integer>> results = processor.process(routine);
+        assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
+    }
+    
     @Test
     public void shouldCountMultipleCommandLinesOnce() {
         final MumpsRoutine routine = new StringBasedMumpsRoutine(
@@ -44,7 +57,6 @@ public final class NonCommentLineCounterTest {
                 "HELLO ; This is an NCLOC.",
                 " W \"HELLO!\" Q ; This is an NCLOC.",
                 " ; This is not an NCLOC.");
-        final RoutineProcessor processor = routineProcessor();
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
         assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(2));
     }
@@ -55,7 +67,6 @@ public final class NonCommentLineCounterTest {
                 "HELLO.m",
                 "HELLO N LVAR,RVAR ; This is an NCLOC.",
                 " ; This is not an NCLOC.");
-        final RoutineProcessor processor = routineProcessor();
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
         assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
     }
@@ -66,7 +77,6 @@ public final class NonCommentLineCounterTest {
                 "HELLO.m",
                 "HELLO ; This is an NCLOC.",
                 " ... ; This not an NCLOC.");
-        final RoutineProcessor processor = routineProcessor();
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
         assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
     }
@@ -77,7 +87,6 @@ public final class NonCommentLineCounterTest {
                 "HELLO.m",
                 "HELLO ; This is an NCLOC.",
                 " ; This not an NCLOC.");
-        final RoutineProcessor processor = routineProcessor();
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
         assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
     }
@@ -88,7 +97,6 @@ public final class NonCommentLineCounterTest {
                 "HELLO.m",
                 "HELLO ; This is an NCLOC.",
                 " ; This not an NCLOC.");
-        RoutineProcessor processor = routineProcessor();
         Map<String, Map<Metric, Integer>> results1 = processor.process(routine1);
         assertThat(results1.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
 
@@ -104,18 +112,7 @@ public final class NonCommentLineCounterTest {
         final MumpsRoutine routine = new StringBasedMumpsRoutine(
                 "HELLO.m",
                 "");
-        final RoutineProcessor processor = routineProcessor();
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
         assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(0));
-    }
-
-    private RoutineProcessor routineProcessor() {
-        final AntlrMetricListener listener = new NonCommentLineCounter();
-        final AntlrRoutineProcessorBuilder builder =
-                new AntlrRoutineProcessorBuilder();
-        final RoutineProcessor processor =
-                builder.setAntlrMetricListeners(listener)
-                .build();
-        return processor;
     }
 }

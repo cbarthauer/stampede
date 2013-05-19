@@ -23,8 +23,10 @@ package listener;
 
 import analyzer.Metric;
 import grammar.MBaseListener;
+import grammar.MParser.BlockLevelContext;
 import grammar.MParser.CommandContext;
-import grammar.MParser.IdentifierContext;
+import grammar.MParser.CommentContext;
+import grammar.MParser.EntryLabelContext;
 import grammar.MParser.LevelLineContext;
 
 /**
@@ -37,14 +39,17 @@ public final class NonCommentLineCounter
         implements AntlrMetricListener {
     
     private int nonCommentLineCount;
-    private boolean doIncrement;
+    private boolean hasBlockLevel;
+    private boolean hasComment;
+    private boolean hasCommand;
+    private boolean hasEntryLabel;
 
     /**
      * Create NonCommentLineCounter with initial line count of zero.
      */
     public NonCommentLineCounter() {
         nonCommentLineCount = 0;
-        doIncrement = true;
+        initializeFlags();
     }
     
     @Override
@@ -63,24 +68,40 @@ public final class NonCommentLineCounter
     }
 
     @Override
-    public final void enterCommand(CommandContext ctx) {
-        increment();
+    public void enterBlockLevel(BlockLevelContext ctx) {
+        hasBlockLevel = true;
     }
 
     @Override
-    public final void enterIdentifier(IdentifierContext ctx) {
-        increment();
+    public void enterComment(CommentContext ctx) {
+        hasComment = true;
+    }
+    
+    @Override
+    public final void enterCommand(CommandContext ctx) {
+        hasCommand = true;
+    }
+
+    @Override
+    public final void enterEntryLabel(EntryLabelContext ctx) {
+        hasEntryLabel = true;
     }
 
     @Override
     public final void exitLevelLine(LevelLineContext ctx) {
-        doIncrement = true;
+        if(hasCommand 
+                || hasEntryLabel 
+                || (hasBlockLevel && !hasComment)) {
+            nonCommentLineCount++;
+        }
+        
+        initializeFlags();
     }
 
-    private void increment() {
-        if(doIncrement) {
-            nonCommentLineCount++;
-            doIncrement = false;
-        }
-    }    
+    private void initializeFlags() {
+        hasBlockLevel = false;
+        hasComment = false;
+        hasCommand = false;
+        hasEntryLabel = false;
+    }
 }

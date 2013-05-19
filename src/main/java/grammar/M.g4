@@ -131,6 +131,10 @@ argument
   : ~(SPACE | NEWLINE | '\"')+
   ;
 
+blockLevel
+  : PERIOD (SPACE* PERIOD)*
+  ;
+
 cmdDo
   : DO postCondition? (SPACE argument)?
   ;
@@ -203,7 +207,15 @@ command
   | cmdXecute
   | cmdUnknown
   ; 
-      
+
+comment
+  : COMMENT
+  ;
+
+entryLabel
+  : identifier
+  ;
+
 identifier
   : DO 
   | ELSE 
@@ -226,9 +238,9 @@ identifier
   ;
     
 levelLine
-  : identifier (SPACE+ PERIOD (SPACE* PERIOD)*)? (SPACE* command)* (SPACE* COMMENT)? SPACE* NEWLINE
-  | (SPACE+ command)* (SPACE+ COMMENT)? SPACE* NEWLINE
-  | SPACE+ PERIOD (SPACE* PERIOD)* (SPACE* command)* (SPACE* COMMENT)? SPACE* NEWLINE
+  : entryLabel (SPACE+ blockLevel)? (SPACE* command)* (SPACE* comment)? SPACE* NEWLINE
+  | (SPACE+ command)* (SPACE+ comment)? SPACE* NEWLINE
+  | SPACE+ blockLevel (SPACE* command)* (SPACE* comment)? SPACE* NEWLINE
   ;
   
 postCondition

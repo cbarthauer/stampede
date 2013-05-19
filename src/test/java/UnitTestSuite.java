@@ -24,6 +24,8 @@ import analyzer.AntlrRoutineProcessorTest;
 import analyzer.FileBasedMumpsRoutineTest;
 import analyzer.FileSystemSourceDistributionTest;
 import analyzer.InMemoryMetricStoreTest;
+import analyzer.MapBasedMetricResultTest;
+import listener.CommentLineCounterTest;
 import listener.LineCountListenerTest;
 import listener.NonCommentLineCounterTest;
 import org.junit.runner.RunWith;
@@ -36,11 +38,13 @@ import sonar.SonarMumpsAnalyzerFactoryTest;
 @SuiteClasses({
     AntlrRoutineProcessorTest.class,
     AntlrRoutineProcessorBuilderTest.class,
+    CommentLineCounterTest.class,
     FileBasedMumpsRoutineTest.class,
     FileSystemSourceDistributionTest.class,
     InMemoryMetricStoreTest.class,
     LineCountListenerTest.class,
     NonCommentLineCounterTest.class,
+    MapBasedMetricResultTest.class,
     MumpsCpdMappingTest.class,
     SonarMumpsAnalyzerFactoryTest.class
 })

@@ -1,24 +1,3 @@
-/**
- * Copyright (C) 2013 Chris Barthauer <mumpsstampede@gmail.com>
- *
- * This file is part of STAMPEDE.
- *
- * STAMPEDE is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * STAMPEDE is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with STAMPEDE.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Contributors:
- *     Chris Barthauer - Initial API and implementation.
- */
 // Generated from D:\netbeans_projects\stampede\src\main\java\grammar\M.g4 by ANTLR 4.0
 
   package grammar;
@@ -45,6 +24,9 @@ public interface MListener extends ParseTreeListener {
 	void enterLevelLine(MParser.LevelLineContext ctx);
 	void exitLevelLine(MParser.LevelLineContext ctx);
 
+	void enterBlockLevel(MParser.BlockLevelContext ctx);
+	void exitBlockLevel(MParser.BlockLevelContext ctx);
+
 	void enterCmdNew(MParser.CmdNewContext ctx);
 	void exitCmdNew(MParser.CmdNewContext ctx);
 
@@ -66,6 +48,9 @@ public interface MListener extends ParseTreeListener {
 	void enterPostCondition(MParser.PostConditionContext ctx);
 	void exitPostCondition(MParser.PostConditionContext ctx);
 
+	void enterEntryLabel(MParser.EntryLabelContext ctx);
+	void exitEntryLabel(MParser.EntryLabelContext ctx);
+
 	void enterCommand(MParser.CommandContext ctx);
 	void exitCommand(MParser.CommandContext ctx);
 
@@ -77,6 +62,9 @@ public interface MListener extends ParseTreeListener {
 
 	void enterCmdSet(MParser.CmdSetContext ctx);
 	void exitCmdSet(MParser.CmdSetContext ctx);
+
+	void enterComment(MParser.CommentContext ctx);
+	void exitComment(MParser.CommentContext ctx);
 
 	void enterIdentifier(MParser.IdentifierContext ctx);
 	void exitIdentifier(MParser.IdentifierContext ctx);

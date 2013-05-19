@@ -22,6 +22,7 @@
 package antlr;
 
 import listener.AntlrMetricListener;
+import listener.CommentLineCounter;
 import listener.LineCountListener;
 import listener.NonCommentLineCounter;
 
@@ -44,6 +45,7 @@ public final class AntlrMetricListenerFactory {
      */
     public static AntlrMetricListener[] allListeners() {
         return new AntlrMetricListener[] {
+                new CommentLineCounter(),
                 new LineCountListener(),
                 new NonCommentLineCounter()};
     }

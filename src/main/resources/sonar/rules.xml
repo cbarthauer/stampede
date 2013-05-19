@@ -23,13 +23,23 @@
 -->
 <rules>
 
-  <!-- MumpsAnalyzer -->
+  <!-- STAMPEDE Rules -->
   <rule>
     <key>syntaxError</key>
     <name><![CDATA[Syntax Error]]></name>
-    <priority>BLOCKER</priority>
+    <priority>INFO</priority>
     <configKey>syntaxError</configKey>
     <description>MUMPS syntax error detected.</description>
   </rule>
 
+  <rule>
+    <key>physicalLinesAggregate</key>
+    <name><![CDATA[Physical Lines Aggregate]]></name>
+    <priority>INFO</priority>
+    <configKey>physicalLinesAggregate</configKey>
+    <description>
+        Physical lines should equal sum of NCLOC and COMMENT_LINES.
+    </description>
+  </rule>
+  
 </rules>
