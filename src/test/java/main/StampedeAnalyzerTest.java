@@ -50,10 +50,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Rule;
+import utils.TestingConstants;
 
-public class StampedeAnalyzerTest { 
-    private final String MUMPS_FILE_PATH 
-            = "D:\\mspace\\VistA-FOIA\\Packages\\Toolkit\\Routines\\XINDEX.m";
+public class StampedeAnalyzerTest {
     private final String VISTA_ACCOUNTS_RECEIVABLE_PATH
             = "D:\\mspace\\VistA-FOIA\\Packages\\Accounts Receivable\\Routines";
     private final String VISTA_INTEGRATED_BILLING_PATH
@@ -88,7 +87,7 @@ public class StampedeAnalyzerTest {
     
     @Test
     public void analyzeOneRoutine() {
-        final File inputFile = new File(MUMPS_FILE_PATH);
+        final File inputFile = new File(TestingConstants.VISTA_XINDEX_PATH);
         final SourceDistribution distribution = 
                 new FileSystemSourceDistribution(inputFile);
         final AntlrMetricListener listener = new LineCountListener();

@@ -32,7 +32,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import sonar.MumpsCpdMappingTest;
+import sonar.MumpsSensorTest;
 import sonar.SonarMumpsAnalyzerFactoryTest;
+import sonar.StampedeMetricHandlerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -46,6 +48,8 @@ import sonar.SonarMumpsAnalyzerFactoryTest;
     NonCommentLineCounterTest.class,
     MapBasedMetricResultTest.class,
     MumpsCpdMappingTest.class,
-    SonarMumpsAnalyzerFactoryTest.class
+    MumpsSensorTest.class,
+    SonarMumpsAnalyzerFactoryTest.class,
+    StampedeMetricHandlerTest.class
 })
 public class UnitTestSuite {}

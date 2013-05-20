@@ -25,6 +25,7 @@ import analyzer.Metric;
 import analyzer.MetricResult;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
+import java.util.ArrayList;
 import java.util.Map;
 import main.StampedeAnalyzer;
 import org.slf4j.Logger;
@@ -51,6 +52,7 @@ public final class MumpsSensor implements Sensor {
     
     private final Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap;    
     private final RuleFinder ruleFinder;
+    private List<MetricResultHandler> handlers;
 
     /**
      * Create a MumpsSensor configured with the given RuleFinder.
@@ -64,6 +66,9 @@ public final class MumpsSensor implements Sensor {
     public MumpsSensor(RuleFinder ruleFinder, SonarMetricMap sonarMetricMap) {
         this.sonarMetricMap = sonarMetricMap;
         this.ruleFinder = ruleFinder;
+        
+        handlers = new ArrayList<MetricResultHandler>();
+        handlers.add(new StampedeMetricResultHandler(sonarMetricMap));
     }
     
     @Override
@@ -88,7 +93,10 @@ public final class MumpsSensor implements Sensor {
                 SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
         analyzer.analyze();
         
-        saveMetricResults(project, context, analyzer.metricResults());
+        for(MetricResultHandler handler : handlers) {
+            handler.save(project, context, analyzer.metricResults());
+        }
+        
         saveSyntaxErrors(project, context, analyzer.syntaxErrors());
         savePhysicalLinesAggregateViolations(
                 project, 
@@ -98,28 +106,6 @@ public final class MumpsSensor implements Sensor {
 
     private void analyseProject(Project project, SensorContext context) {
         //Not implemented.
-    }
-
-    private void saveMetricResults(
-            Project project, 
-            SensorContext context, 
-            List<MetricResult> metricResults) {
-
-        for (MetricResult result : metricResults) {
-            File sonarFile = File.fromIOFile(
-                    new java.io.File(result.getPath()),
-                    project);
-
-            sonarFile.setEffectiveKey(
-                    project.getKey() + ":" + sonarFile.getKey());
-            
-            for(Metric metric : result.getSupportedMetrics()) {
-                context.saveMeasure(
-                        sonarFile,
-                        sonarMetricMap.get(metric),
-                        result.getDouble(metric));
-            }
-        }
     }
 
     private void saveSyntaxErrors(
