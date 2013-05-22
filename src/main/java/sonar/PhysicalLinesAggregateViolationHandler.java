@@ -11,7 +11,9 @@ import org.sonar.api.rules.RuleFinder;
 import org.sonar.api.rules.Violation;
 
 /**
- *
+ * This class saves a violation in Sonar for any M routine where
+ * LOC does not equal NCLOC plus COMMENT_LINES.
+ * 
  * @author cbarthauer
  */
 public final class PhysicalLinesAggregateViolationHandler
@@ -19,6 +21,12 @@ public final class PhysicalLinesAggregateViolationHandler
 
     private final RuleFinder ruleFinder;
     
+    /**
+     * Create a PhysicalLinesAggregateViolationHandler configured
+     * with the give RuleFinder.
+     * 
+     * @param ruleFinder used to locate physicalLinesAggregate rule.
+     */
     public PhysicalLinesAggregateViolationHandler(RuleFinder ruleFinder) {
         this.ruleFinder = ruleFinder;
     }

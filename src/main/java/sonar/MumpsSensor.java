@@ -21,11 +21,8 @@
  */
 package sonar;
 
-import analyzer.Metric;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
-import java.util.ArrayList;
-import java.util.Map;
 import main.StampedeAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,9 +46,9 @@ public final class MumpsSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
     
-    private final Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap;    
     private final RuleFinder ruleFinder;
-    private List<MetricResultHandler> handlers;
+    private final List<MetricResultHandler> handlers;
+    
 
     /**
      * Create a MumpsSensor configured with the given RuleFinder.
@@ -62,13 +59,9 @@ public final class MumpsSensor implements Sensor {
      * @param sonarMetricMap contains mappings between STAMPEDE metrics
      *   and Sonar metrics.
      */
-    public MumpsSensor(RuleFinder ruleFinder, SonarMetricMap sonarMetricMap) {
-        this.sonarMetricMap = sonarMetricMap;
+    public MumpsSensor(RuleFinder ruleFinder, SonarConfiguration config) {
+        this.handlers = config.getMetricResultHandlers();
         this.ruleFinder = ruleFinder;
-        
-        handlers = new ArrayList<MetricResultHandler>();
-        handlers.add(new StampedeMetricResultHandler(sonarMetricMap));
-        handlers.add(new PhysicalLinesAggregateViolationHandler(ruleFinder));
     }
     
     @Override

@@ -22,7 +22,7 @@ public class StampedeMetricHandlerTest {
     @Test
     public void shouldIgnoreEmptyMetricResults() {
         final MetricResultHandler handler = new StampedeMetricResultHandler(
-                new SonarMetricMap());
+                new SonarConfiguration(null).getMetricMap());
         final Project project = new MumpsProject(TestingConstants.VISTA_TOOLKIT_PATH);
         final SensorContext sensorContext = context.mock(SensorContext.class);
         final List<MetricResult> metricResults = context.mock(List.class);
@@ -41,7 +41,7 @@ public class StampedeMetricHandlerTest {
     @Test
     public void shouldSaveMetricResult() {
         final MetricResultHandler handler = new StampedeMetricResultHandler(
-                new SonarMetricMap());
+                new SonarConfiguration(null).getMetricMap());
         final Project project = new MumpsProject(TestingConstants.VISTA_TOOLKIT_PATH);
         final SensorContext sensorContext = context.mock(SensorContext.class);
         final MetricResult result = context.mock(MetricResult.class);

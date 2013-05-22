@@ -12,7 +12,7 @@ public class MumpsSensorTest {
     @Test
     public void shouldExecuteOnMumpsProject() {
         RuleFinder ruleFinder = new NullRuleFinder();
-        SonarMetricMap metricMap = new SonarMetricMap();
+        SonarConfiguration metricMap = new SonarConfiguration(ruleFinder);
         MumpsSensor sensor = new MumpsSensor(ruleFinder, metricMap);
         Project project = new MumpsProject(TestingConstants.VISTA_TOOLKIT_PATH);
         assertThat(sensor.shouldExecuteOnProject(project), equalTo(true));
