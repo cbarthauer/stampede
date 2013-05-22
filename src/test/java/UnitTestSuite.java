@@ -33,6 +33,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import sonar.MumpsCpdMappingTest;
 import sonar.MumpsSensorTest;
+import sonar.PhysicalLinesAggregateViolationHandlerTest;
 import sonar.SonarMumpsAnalyzerFactoryTest;
 import sonar.StampedeMetricHandlerTest;
 
@@ -45,10 +46,11 @@ import sonar.StampedeMetricHandlerTest;
     FileSystemSourceDistributionTest.class,
     InMemoryMetricStoreTest.class,
     LineCountListenerTest.class,
-    NonCommentLineCounterTest.class,
     MapBasedMetricResultTest.class,
     MumpsCpdMappingTest.class,
     MumpsSensorTest.class,
+    NonCommentLineCounterTest.class,
+    PhysicalLinesAggregateViolationHandlerTest.class,
     SonarMumpsAnalyzerFactoryTest.class,
     StampedeMetricHandlerTest.class
 })

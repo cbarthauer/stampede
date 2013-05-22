@@ -22,7 +22,6 @@
 package sonar;
 
 import analyzer.Metric;
-import analyzer.MetricResult;
 import java.util.List;
 import analyzer.MumpsSyntaxError;
 import java.util.ArrayList;
@@ -69,6 +68,7 @@ public final class MumpsSensor implements Sensor {
         
         handlers = new ArrayList<MetricResultHandler>();
         handlers.add(new StampedeMetricResultHandler(sonarMetricMap));
+        handlers.add(new PhysicalLinesAggregateViolationHandler(ruleFinder));
     }
     
     @Override
@@ -98,10 +98,6 @@ public final class MumpsSensor implements Sensor {
         }
         
         saveSyntaxErrors(project, context, analyzer.syntaxErrors());
-        savePhysicalLinesAggregateViolations(
-                project, 
-                context, 
-                analyzer.metricResults());
     }
 
     private void analyseProject(Project project, SensorContext context) {
@@ -127,34 +123,6 @@ public final class MumpsSensor implements Sensor {
                         + ", column: " + error.getCharPositionInLine() 
                         + "] " + error.getMessage());
             context.saveViolation(violation);
-        }
-    }
-
-    private void savePhysicalLinesAggregateViolations(
-            Project project, 
-            SensorContext context, 
-            List<MetricResult> metricResults) {
-        
-        Rule rule = ruleFinder.findByKey(
-                MumpsRuleRepository.KEY, 
-                "physicalLinesAggregate");
-        
-        for(MetricResult result : metricResults) {
-            double lines = result.getDouble(Metric.LOC);
-            double ncloc = result.getDouble(Metric.NCLOC);
-            double commentLines = result.getDouble(Metric.COMMENT_LINES);
-            
-            if(!(lines == ncloc + commentLines)) {
-                File sonarFile = File.fromIOFile(
-                        new java.io.File(result.getPath()),
-                        project);
-                sonarFile.setEffectiveKey(
-                        project.getKey() + ":" + sonarFile.getKey());
-                Violation violation = Violation.create(rule, sonarFile)
-                    .setLineId(1)
-                    .setMessage(rule.getDescription());
-                context.saveViolation(violation);
-            }
         }
     }
 }
