@@ -91,7 +91,8 @@ public final class NonCommentLineCounter
     public final void exitLevelLine(LevelLineContext ctx) {
         if(hasCommand 
                 || hasEntryLabel 
-                || (hasBlockLevel && !hasComment)) {
+                || (hasBlockLevel && !hasComment)
+                || isBlankLine()) {
             nonCommentLineCount++;
         }
         
@@ -103,5 +104,9 @@ public final class NonCommentLineCounter
         hasComment = false;
         hasCommand = false;
         hasEntryLabel = false;
+    }
+
+    private boolean isBlankLine() {
+        return !hasCommand && !hasEntryLabel && !hasBlockLevel && !hasComment;
     }
 }

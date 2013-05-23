@@ -108,11 +108,11 @@ public final class NonCommentLineCounterTest {
     }
 
     @Test
-    public void shouldReturnZeroForEmptyRoutine() {
+    public void shouldCountBlankLines() {
         final MumpsRoutine routine = new StringBasedMumpsRoutine(
                 "HELLO.m",
                 "");
         final Map<String, Map<Metric, Integer>> results = processor.process(routine);
-        assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(0));
+        assertThat(results.get("HELLO.m").get(Metric.NCLOC), equalTo(1));
     }
 }
