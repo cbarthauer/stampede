@@ -17,12 +17,12 @@ public interface MetricResultHandler {
      * Save the given metricResults in Sonar.
      * 
      * @param project associated with metricResults
-     * @param sensorContext in which to save results
+     * @param context in which to save results
      * @param metricResults to be saved
      */
     public void save(
             Project project, 
-            SensorContext sensorContext, 
+            SensorContext context, 
             List<MetricResult> metricResults);
     
 }

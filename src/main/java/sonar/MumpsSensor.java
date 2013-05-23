@@ -22,19 +22,14 @@
 package sonar;
 
 import java.util.List;
-import analyzer.MumpsSyntaxError;
 import main.StampedeAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sonar.api.batch.Sensor;
 import org.sonar.api.batch.SensorContext;
-import org.sonar.api.resources.File;
 import org.sonar.api.resources.InputFile;
 import org.sonar.api.resources.Project;
 import org.sonar.api.resources.Qualifiers;
-import org.sonar.api.rules.Rule;
-import org.sonar.api.rules.RuleFinder;
-import org.sonar.api.rules.Violation;
 
 /**
  * This class analyzes a MUMPS source distribution stored in the file system and
@@ -46,22 +41,19 @@ public final class MumpsSensor implements Sensor {
 
     private static final Logger LOG = LoggerFactory.getLogger(MumpsSensor.class);
     
-    private final RuleFinder ruleFinder;
-    private final List<MetricResultHandler> handlers;
+    private final List<MetricResultHandler> metricResultHandlers;
+    private final List<SyntaxErrorHandler> syntaxErrorHandlers;
     
 
     /**
      * Create a MumpsSensor configured with the given RuleFinder.
      * Called by the Sonar dependency injection mechanism.
-     * 
-     * @param ruleFinder for looking up MUMPS code quality rules
-     *   (See /sonar/rules.xml).
-     * @param sonarMetricMap contains mappings between STAMPEDE metrics
-     *   and Sonar metrics.
+     *
+     * @param config contains Sonar runtime configuration.
      */
-    public MumpsSensor(RuleFinder ruleFinder, SonarConfiguration config) {
-        this.handlers = config.getMetricResultHandlers();
-        this.ruleFinder = ruleFinder;
+    public MumpsSensor(SonarConfiguration config) {
+        this.metricResultHandlers = config.getMetricResultHandlers();
+        this.syntaxErrorHandlers = config.getSyntaxErrorHandlers();
     }
     
     @Override
@@ -71,51 +63,19 @@ public final class MumpsSensor implements Sensor {
 
     @Override
     public final void analyse(Project project, SensorContext context) {
-        String qualifier = project.getQualifier();
+        if (Qualifiers.MODULE.equals(project.getQualifier())) {
+            List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
+            StampedeAnalyzer analyzer = 
+                    SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
+            analyzer.analyze();
 
-        if (Qualifiers.PROJECT.equals(qualifier)) {
-            analyseProject(project, context);
-        } else if (Qualifiers.MODULE.equals(qualifier)) {
-            analyseModule(project, context);
-        }
-    }
+            for(MetricResultHandler handler : metricResultHandlers) {
+                handler.save(project, context, analyzer.metricResults());
+            }
 
-    private void analyseModule(Project project, SensorContext context) {
-        List<InputFile> inputFiles = project.getFileSystem().mainFiles(Mumps.KEY);
-        StampedeAnalyzer analyzer = 
-                SonarMumpsAnalyzerFactory.getMumpsAnalyzer(inputFiles);
-        analyzer.analyze();
-        
-        for(MetricResultHandler handler : handlers) {
-            handler.save(project, context, analyzer.metricResults());
-        }
-        
-        saveSyntaxErrors(project, context, analyzer.syntaxErrors());
-    }
-
-    private void analyseProject(Project project, SensorContext context) {
-        //Not implemented.
-    }
-
-    private void saveSyntaxErrors(
-            Project project, 
-            SensorContext context, 
-            List<MumpsSyntaxError> syntaxErrors) {
-        
-        Rule rule = ruleFinder.findByKey(MumpsRuleRepository.KEY, "syntaxError");
-        
-        for(MumpsSyntaxError error : syntaxErrors) {
-            File sonarFile = File.fromIOFile(
-                    new java.io.File(error.getIdentifier()),
-                    project);
-            sonarFile.setEffectiveKey(
-                    project.getKey() + ":" + sonarFile.getKey());
-            Violation violation = Violation.create(rule, sonarFile)
-                    .setLineId(error.getLine())
-                    .setMessage("[line: " + error.getLine() 
-                        + ", column: " + error.getCharPositionInLine() 
-                        + "] " + error.getMessage());
-            context.saveViolation(violation);
+            for(SyntaxErrorHandler handler : syntaxErrorHandlers) {
+                handler.save(project, context, analyzer.syntaxErrors());
+            }
         }
     }
 }

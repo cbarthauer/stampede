@@ -36,6 +36,7 @@ import sonar.MumpsSensorTest;
 import sonar.PhysicalLinesAggregateViolationHandlerTest;
 import sonar.SonarMumpsAnalyzerFactoryTest;
 import sonar.StampedeMetricHandlerTest;
+import sonar.SyntaxErrorViolationHandlerTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
@@ -52,6 +53,7 @@ import sonar.StampedeMetricHandlerTest;
     NonCommentLineCounterTest.class,
     PhysicalLinesAggregateViolationHandlerTest.class,
     SonarMumpsAnalyzerFactoryTest.class,
-    StampedeMetricHandlerTest.class
+    StampedeMetricHandlerTest.class,
+    SyntaxErrorViolationHandlerTest.class
 })
 public class UnitTestSuite {}

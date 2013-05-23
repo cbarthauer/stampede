@@ -2,6 +2,7 @@ package sonar;
 
 import analyzer.Metric;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import org.sonar.api.rules.RuleFinder;
 
 /**
  * This class uses "code as configuration" to provide
- * the MumpsSensor with its runtime configuration.
+ * the MumpsSensor with its runtime settings.
  * 
  * @author cbarthauer
  */
@@ -20,10 +21,13 @@ public final class SonarConfiguration
     
     private final List<MetricResultHandler> metricResultHandlers;
     private final Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap;
+    private final List<SyntaxErrorHandler> syntaxErrorHandlers;
     
     /**
      * Create a new SonarConfiguration initialized with the 
-     * proper mappings.
+     * given ruleFinder and hard coded configuration.
+     * 
+     * @param ruleFinder injected by Sonar framework
      */
     public SonarConfiguration(RuleFinder ruleFinder) {
         sonarMetricMap = new HashMap<Metric, org.sonar.api.measures.Metric>();
@@ -31,10 +35,12 @@ public final class SonarConfiguration
         sonarMetricMap.put(Metric.NCLOC, CoreMetrics.NCLOC);
         sonarMetricMap.put(Metric.COMMENT_LINES, CoreMetrics.COMMENT_LINES);
         
-        metricResultHandlers = new ArrayList<MetricResultHandler>();
-        metricResultHandlers.add(new StampedeMetricResultHandler(sonarMetricMap));
-        metricResultHandlers.add(
+        metricResultHandlers = Arrays.asList(
+                new StampedeMetricResultHandler(sonarMetricMap),
                 new PhysicalLinesAggregateViolationHandler(ruleFinder));
+        
+        syntaxErrorHandlers = new ArrayList<SyntaxErrorHandler>();
+        syntaxErrorHandlers.add(new SyntaxErrorViolationHandler(ruleFinder));
     }
 
     /**
@@ -44,7 +50,7 @@ public final class SonarConfiguration
      * 
      * @return Map of STAMPEDE metrics to Sonar metrics.
      */
-    public final Map<Metric, org.sonar.api.measures.Metric> getMetricMap() {
+    final Map<Metric, org.sonar.api.measures.Metric> getMetricMap() {
         return new HashMap<Metric, org.sonar.api.measures.Metric>(sonarMetricMap);
     }
 
@@ -54,7 +60,17 @@ public final class SonarConfiguration
      * 
      * @return List of MetricResultHandlers.
      */
-    public final List<MetricResultHandler> getMetricResultHandlers() {
+    final List<MetricResultHandler> getMetricResultHandlers() {
         return new ArrayList<MetricResultHandler>(metricResultHandlers);
+    }
+
+    /**
+     * Returns a list of SyntaxErrorHandlers which define how MumpsSensor
+     * will tally syntax errors.
+     * 
+     * @return List of SyntaxErrorHandlers.
+     */
+    final List<SyntaxErrorHandler> getSyntaxErrorHandlers() {
+        return new ArrayList<SyntaxErrorHandler>(syntaxErrorHandlers);
     }
 }

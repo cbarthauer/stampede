@@ -16,7 +16,7 @@ import org.sonar.api.rules.Violation;
  * 
  * @author cbarthauer
  */
-public final class PhysicalLinesAggregateViolationHandler
+final class PhysicalLinesAggregateViolationHandler
         implements MetricResultHandler {
 
     private final RuleFinder ruleFinder;
@@ -27,7 +27,7 @@ public final class PhysicalLinesAggregateViolationHandler
      * 
      * @param ruleFinder used to locate physicalLinesAggregate rule.
      */
-    public PhysicalLinesAggregateViolationHandler(RuleFinder ruleFinder) {
+    PhysicalLinesAggregateViolationHandler(RuleFinder ruleFinder) {
         this.ruleFinder = ruleFinder;
     }
     

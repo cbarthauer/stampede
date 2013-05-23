@@ -14,7 +14,7 @@ import org.sonar.api.resources.Project;
  * 
  * @author cbarthauer
  */
-public final class StampedeMetricResultHandler 
+final class StampedeMetricResultHandler 
         implements MetricResultHandler {
 
     private Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap;
@@ -26,7 +26,7 @@ public final class StampedeMetricResultHandler
      * @param sonarMetricMap contains mappings between STAMPEDE
      * metrics and Sonar metrics.
      */
-    public StampedeMetricResultHandler(
+    StampedeMetricResultHandler(
             Map<Metric, org.sonar.api.measures.Metric> sonarMetricMap) {
         this.sonarMetricMap = sonarMetricMap;
     }
