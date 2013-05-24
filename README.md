@@ -41,9 +41,11 @@ system to detect duplication within M source code.
 3. Non-Comment Lines of Code Metric - STAMPEDE counts non-comment lines of code. These
 are lines containing some executable code (i.e., excludes lines containing only a
 comment).
-4. Violations - STAMPEDE supports limited detection of syntax errors. Syntax errors 
+4. Comment Lines Metric - STAMPEDE counts comment lines. These are lines which contain only
+a comment (and optionally one or more block level indicators).
+5. Violations - STAMPEDE supports limited detection of syntax errors. Syntax errors 
 are reported using Sonar's violation mechanism.
-5. Sonar GUI - STAMPEDE displays all results within the Sonar web-based
+6. Sonar GUI - STAMPEDE displays all results within the Sonar web-based
 GUI. All metrics are integrated with Sonar's drilldown display to report results at the 
 distribution, module, and file levels.
  
